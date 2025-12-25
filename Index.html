@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Solaro · Minimal Solar Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* THEME TOKENS */
+    :root{
+      --bg-page:#020617;
+      --bg-card:#020617;
+      --text-main:#e5f4ff;
+      --text-muted:#9ca3af;
+      --accent:#bef264;
+      --accent-soft:#a3e635;
+      --border-soft:rgba(148,163,184,0.25);
+    }
+    :root.light{
+      --bg-page:#f9fafb;
+      --bg-card:#ffffff;
+      --text-main:#0f172a;
+      --text-muted:#6b7280;
+      --accent:#65a30d;
+      --accent-soft:#4d7c0f;
+      --border-soft:rgba(148,163,184,0.35);
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box}
+
+    body{
+      font-family:"Poppins",sans-serif;
+      min-height:100vh;
+      background:var(--bg-page);
+      color:var(--text-main);
+      display:flex;
+      flex-direction:column;
+      transition:background .25s ease,color .25s ease;
+    }
+
+    .page{
+      max-width:1120px;
+      margin:32px auto;
+      padding:24px 24px 32px;
+      border-radius:24px;
+      background:var(--bg-card);
+      box-shadow:0 24px 60px rgba(0,0,0,0.25);
+      transition:background .25s ease,box-shadow .25s ease;
+    }
+
+    /* NAVBAR */
+    .navbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:40px;
+      gap:16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:18px;
+      font-weight:600;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .brand-icon{
+      width:18px;height:18px;border-radius:5px;
+      background:linear-gradient(135deg,#facc15,#22c55e);
+    }
+    .nav-links{
+      display:flex;
+      gap:24px;
+      font-size:13px;
+      opacity:.85;
+    }
+    .nav-links a{
+      color:var(--text-muted);
+      text-decoration:none;
+      transition:.2s;
+    }
+    .nav-links a:hover{opacity:1;color:var(--text-main)}
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .nav-cta{
+      padding:7px 16px;
+      border-radius:999px;
+      border:1px solid var(--accent-soft);
+      background:transparent;
+      color:var(--accent-soft);
+      font-size:11px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      cursor:pointer;
+      transition:.2s;
+      white-space:nowrap;
+    }
+    .nav-cta:hover{
+      background:var(--accent);
+      color:#022c22;
+    }
+
+    /* TOGGLE BUTTON (accessible) */
+    .theme-toggle{
+      position:relative;
+      width:50px;
+      height:26px;
+      border-radius:999px;
+      border:1px solid var(--border-soft);
+      background:rgba(15,23,42,0.85);
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      padding:3px;
+      outline:none;
+      transition:background .2s ease,border .2s ease;
+    }
+    :root.light .theme-toggle{
+      background:#e5e7eb;
+    }
+    .toggle-knob{
+      width:20px;
+      height:20px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 8px rgba(190,242,100,0.7);
+      transform:translateX(0);
+      transition:transform .22s ease,background .22s ease,box-shadow .22s ease;
+    }
+    :root.light .toggle-knob{
+      transform:translateX(22px);
+      background:#0f172a;
+      box-shadow:0 0 6px rgba(15,23,42,0.6);
+    }
+    .toggle-labels{
+      position:absolute;
+      inset:0;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:0 7px;
+      pointer-events:none;
+      font-size:10px;
+      color:#9ca3af;
+    }
+
+    /* HERO */
+    .hero{
+      display:flex;
+      align-items:center;
+      gap:40px;
+      padding:8px 0 8px;
+    }
+    .hero-left{flex:1;}
+
+    .eyebrow{
+      font-size:11px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:#a5b4fc;
+      margin-bottom:10px;
+    }
+    :root.light .eyebrow{color:#4f46e5;}
+
+    .title{
+      font-size:42px;
+      line-height:1.1;
+      margin-bottom:12px;
+    }
+    .title span{color:var(--accent);}
+
+    .subtitle{
+      font-size:15px;
+      color:var(--text-main);
+      opacity:.9;
+      margin-bottom:18px;
+    }
+    .copy{
+      font-size:13px;
+      color:var(--text-muted);
+      line-height:1.8;
+      max-width:360px;
+      margin-bottom:22px;
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:18px;
+      flex-wrap:wrap;
+    }
+    .btn-primary{
+      padding:10px 24px;
+      border-radius:999px;
+      border:none;
+      font-size:12px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      cursor:pointer;
+      background:var(--accent);
+      color:#0f172a;
+      transition:.2s;
+    }
+    .btn-primary:hover{background:var(--accent-soft)}
+    .btn-link{
+      background:none;
+      border:none;
+      color:var(--text-muted);
+      font-size:12px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      opacity:.9;
+      padding:0;
+    }
+    .btn-link span{font-size:15px;}
+    .btn-link:hover{opacity:1;color:var(--text-main)}
+
+    .meta{
+      font-size:11px;
+      color:var(--text-muted);
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    /* Illustration */
+    .hero-right{
+      flex:1;
+      min-height:220px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .scene{
+      position:relative;
+      width:260px;
+      height:200px;
+      border-radius:20px;
+      background:var(--bg-page);
+      border:1px solid var(--border-soft);
+      overflow:hidden;
+      transition:background .25s ease,border .25s ease;
+    }
+    .sun{
+      position:absolute;
+      top:18px;
+      right:32px;
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      background:radial-gradient(circle,#fefce8 0,#facc15 45%,#f97316 80%);
+    }
+    .horizon{
+      position:absolute;
+      left:0;right:0;
+      bottom:72px;
+      height:40px;
+      background:linear-gradient(to top,#022c22,transparent);
+    }
+    :root.light .horizon{
+      background:linear-gradient(to top,#bbf7d0,transparent);
+    }
+    .panel{
+      position:absolute;
+      left:22px;
+      right:22px;
+      bottom:26px;
+      height:60px;
+      border-radius:10px;
+      background:linear-gradient(145deg,#020617,#0b1220);
+      box-shadow:0 14px 30px rgba(15,23,42,0.7);
+      overflow:hidden;
+    }
+    :root.light .panel{
+      background:linear-gradient(145deg,#e5f2ff,#c4ddff);
+      box-shadow:0 10px 24px rgba(148,163,184,0.45);
+    }
+    .panel::before{
+      content:"";
+      position:absolute;
+      inset:10px 12px;
+      background-image:
+        linear-gradient(to right,rgba(148,163,184,0.25) 1px,transparent 1px),
+        linear-gradient(to bottom,rgba(148,163,184,0.25) 1px,transparent 1px);
+      background-size:26px 26px;
+    }
+    .badge{
+      position:absolute;
+      left:18px;
+      top:18px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.9);
+      font-size:10px;
+      color:#d9f99d;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    :root.light .badge{
+      background:rgba(255,255,255,0.96);
+      color:#166534;
+    }
+    .badge-dot{
+      width:6px;height:6px;border-radius:50%;
+      background:#22c55e;
+    }
+
+    /* Responsive */
+    @media(max-width:900px){
+      .page{margin:16px;padding:20px;}
+      .hero{flex-direction:column;}
+      .hero-right{width:100%}
+    }
+    @media(max-width:600px){
+      .title{font-size:30px}
+      .subtitle{font-size:14px}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="brand">
+        <span class="brand-icon"></span>
+        SOLARO
+      </div>
+
+      <nav class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Solutions</a>
+        <a href="#">Pricing</a>
+        <a href="#">Contact</a>
+      </nav>
+
+      <div class="nav-right">
+        <button class="nav-cta">Get quote</button>
+
+        <!-- Theme toggle -->
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle light and dark mode">
+          <div class="toggle-knob"></div>
+          <div class="toggle-labels">
+            <span>☾</span>
+            <span>☀</span>
+          </div>
+        </button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <main class="hero">
+      <section class="hero-left">
+        <div class="eyebrow">Solar energy for modern homes</div>
+        <h1 class="title">Simple, clean <span>solar</span> for your rooftop.</h1>
+        <p class="subtitle">Lower your bill and your carbon footprint with one neat installation.</p>
+        <p class="copy">
+          We design and install compact solar systems that fit your roof, work quietly in the
+          background, and pay for themselves in just a few years.
+        </p>
+
+        <div class="actions">
+          <button class="btn-primary">Check savings</button>
+          <button class="btn-link">Talk to an expert <span>→</span></button>
+        </div>
+
+        <div class="meta">
+          <span>Avg. 40–60% bill reduction</span>
+          <span>25‑year panel warranty</span>
+        </div>
+      </section>
+
+      <aside class="hero-right">
+        <div class="scene">
+          <div class="sun"></div>
+          <div class="horizon"></div>
+          <div class="panel"></div>
+          <div class="badge">
+            <span class="badge-dot"></span>
+            3.2 tons CO₂ saved / year
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    const root = document.documentElement;
+    const toggleBtn = document.getElementById('themeToggle');
+    const STORAGE_KEY = 'solaro-theme';
+
+    // Load saved theme
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === 'light') {
+      root.classList.add('light');
+    }
+
+    toggleBtn.addEventListener('click', () => {
+      const isLight = root.classList.toggle('light');
+      localStorage.setItem(STORAGE_KEY, isLight ? 'light' : 'dark');
+    });
+  </script>
+</body>
+</html>
