@@ -1,779 +1,147 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Bike Showroom — Catalog, GST & Finance Calculator</title>
-<style>
-/* --------- Basic / Reset ---------- */
-:root{
-  --accent:#111827; /* dark slate */
-  --primary:#1f7a8c;
-  --muted:#6b7280;
-  --card:#ffffff;
-  --bg:#f4f6f8;
-  --glass: rgba(255,255,255,0.7);
-  --success:#16a34a;
-  --danger:#dc2626;
-  --shadow: 0 6px 18px rgba(16,24,40,0.08);
-  --radius:12px;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-*{box-sizing:border-box}
-html,body{height:100%;margin:0;background:linear-gradient(180deg, #f8fafc 0%, var(--bg) 100%);color:#0f172a}
-a{color:var(--primary)}
-.container{max-width:1200px;margin:28px auto;padding:18px}
-
-/* Header */
-.header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px;border-radius:14px;background:linear-gradient(90deg,#fff,#fbfdff);box-shadow:var(--shadow)}
-.brand{display:flex;gap:12px;align-items:center}
-.logo{width:54px;height:54px;border-radius:10px;background:linear-gradient(135deg,#1f7a8c,#4cc9f0);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:20px}
-.title{font-size:18px;font-weight:700}
-.subtitle{font-size:12px;color:var(--muted)}
-
-/* Controls */
-.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.input,select,button{padding:10px 12px;border-radius:10px;border:1px solid #e6eef2;background:white;outline:none}
-.search{min-width:220px;width:340px}
-.filter-row{display:flex;gap:10px;align-items:center}
-
-/* Grid & Cards */
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:18px}
-.card{background:var(--card);border-radius:12px;padding:12px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px}
-.card img{width:100%;height:160px;object-fit:cover;border-radius:8px}
-.card .meta{display:flex;justify-content:space-between;align-items:center}
-.price{font-weight:800;color:var(--accent)}
-.tag{background:#eef2ff;color:#3730a3;padding:6px 8px;border-radius:999px;font-weight:600;font-size:12px}
-
-/* Specs */
-.specs{display:flex;flex-wrap:wrap;gap:8px;font-size:13px;color:var(--muted)}
-.spec{background:#f1f5f9;padding:8px;border-radius:8px}
-
-/* Buttons & actions */
-.actions{display:flex;gap:8px;margin-top:8px}
-.btn{border:0;padding:10px 12px;border-radius:8px;background:var(--primary);color:white;cursor:pointer}
-.btn.ghost{background:transparent;color:var(--primary);border:1px solid #dbeafe}
-.btn.warn{background:#f59e0b}
-.small{padding:8px 10px;font-size:13px}
-
-/* Modal */
-.modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
-.modal{width:920px;max-width:100%;background:white;border-radius:12px;padding:18px;box-shadow:0 20px 50px rgba(2,6,23,0.6);display:grid;grid-template-columns:1fr 320px;gap:14px}
-.modal img{width:100%;height:260px;object-fit:cover;border-radius:8px}
-.close-x{position:absolute;right:20px;top:16px;background:#fff;border-radius:999px;padding:6px;cursor:pointer;border:1px solid #e6eef2}
-
-/* Compare bar */
-.compare-bar{position:fixed;left:20px;right:20px;bottom:22px;background:white;border-radius:12px;padding:10px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;justify-content:space-between;display:none;z-index:70}
-
-/* Sidebar calculators & info */
-.sidebar{background:#fafafa;padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:10px}
-.calc-row{display:flex;gap:8px;align-items:center}
-.table{width:100%;border-collapse:collapse}
-.table th,.table td{font-size:13px;padding:8px;border-bottom:1px dashed #e6eef2;text-align:left}
-
-/* Footer */
-.footer{margin-top:28px;padding:18px;border-radius:12px;background:linear-gradient(90deg,#fff,#fbfdff);box-shadow:var(--shadow)}
-.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-
-/* Responsive */
-@media (max-width:920px){
-  .modal{grid-template-columns:1fr}
-  .header{flex-direction:column;align-items:stretch}
-  .controls{justify-content:space-between}
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>moto</title>
 </head>
-<body>
-<div class="container">
-  <header class="header" role="banner">
-    <div class="brand">
-      <div class="logo">BS</div>
-      <div>
-        <div class="title">Bike Showroom</div>
-        <div class="subtitle">Discover specs, prices, GST & monthly EMI</div>
-      </div>
-    </div>
+<body style="margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#0f172a,#020617);color:#e5e7eb;min-height:100vh;">
 
-    <div class="controls" role="search">
-      <input id="search" class="input search" placeholder="Search by name, engine, type, feature..." />
-      <select id="typeFilter" class="input">
-        <option value="">All types (Sport / Cruiser / Commuter / Adventure)</option>
-        <option value="Sport">Sport</option>
-        <option value="Cruiser">Cruiser</option>
-        <option value="Commuter">Commuter</option>
-        <option value="Adventure">Adventure</option>
-      </select>
-      <select id="sortBy" class="input">
-        <option value="relevance">Sort: Relevance</option>
-        <option value="price-asc">Price: Low → High</option>
-        <option value="price-desc">Price: High → Low</option>
-        <option value="power-desc">Power: High → Low</option>
-        <option value="mileage-desc">Mileage: High → Low</option>
-      </select>
-      <button class="btn small" onclick="resetFilters()">Reset</button>
-    </div>
-  </header>
-
-  <!-- Filters / Stats -->
-  <section style="display:flex;gap:14px;margin-top:16px;align-items:center;flex-wrap:wrap">
-    <div style="flex:1;min-width:260px;background:linear-gradient(180deg,#fff,#fbfdff);padding:12px;border-radius:12px;box-shadow:var(--shadow)">
-      <strong>Showroom highlights</strong>
-      <div style="margin-top:8px;color:var(--muted);font-size:14px">
-        Browse curated bikes with detailed specs, on-road & ex-showroom illustrations, GST & EMI calculators, compare up to 3 bikes, and download specs.
-      </div>
-    </div>
-
-    <div style="display:flex;gap:8px;">
-      <div style="background:#fff;padding:10px;border-radius:12px;box-shadow:var(--shadow);min-width:140px">
-        <div style="font-size:12px;color:var(--muted)">Bikes listed</div>
-        <div id="countBikes" style="font-weight:800;font-size:20px">0</div>
-      </div>
-      <div style="background:#fff;padding:10px;border-radius:12px;box-shadow:var(--shadow);min-width:140px">
-        <div style="font-size:12px;color:var(--muted)">Compare selected</div>
-        <div id="countCompare" style="font-weight:800;font-size:20px">0</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Grid + Sidebar -->
-  <section style="display:grid;grid-template-columns:1fr 340px;gap:16px;margin-top:18px;align-items:start">
-    <div>
-      <div class="grid" id="catalog"></div>
-    </div>
-
-    <aside class="sidebar" aria-label="Tools & Calculators">
-      <div>
-        <strong>GST & Price Calculator</strong>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">Enter ex-showroom (base) price and GST % to see tax breakdown and estimated on-road price (approx).</div>
-        <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px">
-          <div class="calc-row"><input id="basePrice" class="input" type="number" placeholder="Ex-showroom price (e.g. 150000)" /></div>
-          <div class="calc-row"><input id="gstPercent" class="input" type="number" placeholder="GST % (e.g. 18)" /></div>
-          <div class="calc-row"><button class="btn" onclick="calcGSTLocal()">Calculate GST</button><button class="btn ghost" onclick="clearGSTCalc()">Clear</button></div>
-          <div id="gstResult" style="background:#fff;padding:10px;border-radius:10px;display:none">
-            <div style="font-weight:700" id="gstBreakdownTitle"></div>
-            <table class="table"><tbody>
-              <tr><th>GST (%)</th><td id="g1">-</td></tr>
-              <tr><th>GST Amount</th><td id="g2">-</td></tr>
-              <tr><th>Insurance (est.)</th><td id="g3">-</td></tr>
-              <tr><th>Road Tax (est.)</th><td id="g4">-</td></tr>
-              <tr><th><strong>Estimated On-road</strong></th><td id="g5"><strong>-</strong></td></tr>
-            </tbody></table>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <strong>EMI / Finance Estimator</strong>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">Principal, tenure & annual rate to see monthly EMI.</div>
-        <div style="margin-top:8px;display:flex;flex-direction:column;gap:8px">
-          <input id="emiPrincipal" class="input" type="number" placeholder="Loan amount (₹)" />
-          <div style="display:flex;gap:8px">
-            <input id="emiRate" class="input" type="number" placeholder="Annual rate % (e.g. 9.5)" />
-            <input id="emiTenure" class="input" type="number" placeholder="Tenure months (e.g. 36)" />
-          </div>
-          <div style="display:flex;gap:8px"><button class="btn" onclick="calcEMI()">Compute EMI</button><button class="btn ghost" onclick="clearEMI()">Clear</button></div>
-          <div id="emiResult" style="display:none;background:#fff;padding:10px;border-radius:10px">
-            <div>Monthly EMI: <strong id="emiMonthly">-</strong></div>
-            <div style="font-size:13px;color:var(--muted)">Total payment: <span id="emiTotal">-</span> | Total interest: <span id="emiInterest">-</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <strong>GST Quick Info (India)</strong>
-        <div style="font-size:13px;color:var(--muted);margin-top:6px">
-          Typical GST rates for two-wheelers vary by type and engine:
-          <ul style="margin:6px 0 0 18px;color:var(--muted)">
-            <li>Lower/higher displacement commuters: 18%</li>
-            <li>High-performance bikes / large engine: 28% (plus possible cess on very high-value items)</li>
-            <li>Accessories & spares: usually 18% (can vary)</li>
-          </ul>
-          Use the calculator above and consult local RTO/ dealer for exact on-road tax & road tax rates by state.
-        </div>
-      </div>
-    </aside>
-  </section>
-
-  <!-- Compare Bar -->
-  <div id="compareBar" class="compare-bar" role="status" aria-live="polite">
-    <div style="display:flex;gap:12px;align-items:center">
-      <strong>Compare</strong>
-      <div id="compareList" style="display:flex;gap:8px;align-items:center"></div>
-    </div>
-    <div style="display:flex;gap:8px;align-items:center">
-      <button class="btn small" onclick="showCompareModal()">Open Compare</button>
-      <button class="btn ghost small" onclick="clearCompare()">Clear</button>
+  <!-- Top Banner -->
+  <div style="padding:15px 20px;background:rgba(15,23,42,0.95);border-bottom:1px solid #1f2937;display:flex;flex-direction:column;gap:10px;align-items:center;position:sticky;top:0;backdrop-filter:blur(8px);z-index:10;">
+    <div style="text-align:center;width:100%;">
+      <h1 style="margin:0;font-size:clamp(20px,5vw,28px);color:#f97316;">moto</h1>
+      <p style="margin:4px 0 0;font-size:clamp(12px,3vw,14px);color:#9ca3af;">Whenever I feel low, I come here, breathe, and rise again.</p>
     </div>
   </div>
 
-  <!-- Modal (details & compare) -->
-  <div id="modalBackdrop" class="modal-backdrop" onclick="closeModal(event)">
-    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" onclick="event.stopPropagation()">
-      <div>
-        <img id="modalImage" src="" alt="Bike image" />
-        <h2 id="modalTitle"></h2>
-        <div id="modalSub" style="color:var(--muted);margin-bottom:8px"></div>
-        <div id="modalDesc" style="color:var(--muted);margin-bottom:8px"></div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <button class="btn" id="modalGSTBtn" onclick="">GST Calc</button>
-          <button class="btn ghost" id="modalEMIBtn" onclick="">EMI Est</button>
-          <button class="btn ghost" onclick="downloadSpec()">Download Specs</button>
-        </div>
+  <!-- Main Content -->
+  <div style="max-width:1100px;margin:20px auto;padding:0 15px;">
+
+    <!-- Intro Quote -->
+    <div style="padding:15px 20px;border-radius:14px;background:linear-gradient(135deg,rgba(15,118,110,0.2),rgba(56,189,248,0.15));border:1px solid rgba(34,197,94,0.4);box-shadow:0 10px 25px rgba(15,23,42,0.7);margin-bottom:20px;">
+      <p style="margin:0;font-size:clamp(13px,4vw,15px);line-height:1.6;color:#e5e7eb;">
+        This page reminds me that discipline, hard work and self‑belief can turn any tough day into a powerful comeback.
+      </p>
+    </div>
+
+    <!-- Inspiration Cards -->
+    <h2 style="margin:25px 0 15px;font-size:clamp(18px,5vw,22px);color:#fbbf24;text-align:center;">My Inspiration Heroes</h2>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;padding:0 5px;">
+
+      <!-- Virat Kohli -->
+      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #1d4ed8;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(59,130,246,0.25),transparent);pointer-events:none;"></div>
+        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#60a5fa;">Virat Kohli</h3>
+        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Cricketer • King of intensity</p>
+        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
+          Teaches me relentless consistency, fitness, and playing every moment with fire and focus.
+        </p>
       </div>
 
-      <aside>
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <div style="font-weight:800" id="modalPrice">₹ -</div>
-          <div style="text-align:right;color:var(--muted)"><div id="modalEngine">-</div><div id="modalPower">-</div></div>
-        </div>
-        <hr />
-        <div>
-          <strong>Key Specs</strong>
-          <table class="table" style="margin-top:8px">
-            <tbody id="specTable"></tbody>
-          </table>
-        </div>
-      </aside>
-      <div class="close-x" onclick="closeModal(event)">✕</div>
+      <!-- Dulquer Salmaan -->
+      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #a855f7;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(168,85,247,0.25),transparent);pointer-events:none;"></div>
+        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#d8b4fe;">Dulquer Salmaan</h3>
+        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Actor • Versatile performer</p>
+        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
+          Reminds me to be calm, humble and keep improving my craft without making noise.
+        </p>
+      </div>
+
+      <!-- PV Sindhu -->
+      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #22c55e;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at bottom left,rgba(34,197,94,0.25),transparent);pointer-events:none;"></div>
+        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#4ade80;">P. V. Sindhu</h3>
+        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Badminton champion</p>
+        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
+          Shows the power of discipline, mental strength, and bouncing back after tough losses.
+        </p>
+      </div>
+
+      <!-- Nani -->
+      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #f97316;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at bottom right,rgba(249,115,22,0.25),transparent);pointer-events:none;"></div>
+        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#fdba74;">Nani</h3>
+        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Actor • Natural star</p>
+        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
+          Inspires me to stay rooted, be real, and trust slow and steady growth.
+        </p>
+      </div>
+
+      <!-- Lionel Messi -->
+      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #38bdf8;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at top,rgba(56,189,248,0.25),transparent);pointer-events:none;"></div>
+        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#7dd3fc;">Lionel Messi</h3>
+        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Football legend</p>
+        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
+          From health problems and rejections to world champion, he proves that quiet hard work can create history.
+        </p>
+      </div>
+
+      <!-- Cristiano Ronaldo -->
+      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #ef4444;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at left,rgba(239,68,68,0.25),transparent);pointer-events:none;"></div>
+        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#fecaca;">Cristiano Ronaldo</h3>
+        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Football icon</p>
+        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
+          His mindset shows that talent is useless without crazy hard work and self‑belief.
+        </p>
+      </div>
+
+      <!-- Hardik Pandya -->
+      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #eab308;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
+        <div style="position:absolute;inset:0;background:radial-gradient(circle at center,rgba(234,179,8,0.25),transparent);pointer-events:none;"></div>
+        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#facc15;">Hardik Pandya</h3>
+        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Cricketer • Comeback king</p>
+        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
+          His journey from financial struggle to champion reminds me to turn every setback into a stronger comeback.
+        </p>
+      </div>
+
     </div>
+
+    <!-- Short Daily Reminder -->
+    <div style="margin:30px 0;padding:20px;border-radius:16px;background:rgba(20,83,45,0.3);border:1px solid rgba(52,211,153,0.5);box-shadow:0 10px 25px rgba(15,23,42,0.7);">
+      <h2 style="margin:0 0 15px;font-size:clamp(17px,4vw,20px);color:#34d399;text-align:center;">My Daily Reminder</h2>
+      <ul style="margin:0;padding-left:20px;font-size:clamp(13px,3.5vw,14px);line-height:1.7;color:#d1d5db;">
+        <li>One focused hour now is better than ten distracted hours later.</li>
+        <li>Progress can be very small today, but it still moves the story forward.</li>
+        <li>When it feels hard, that is exactly when champions are created.</li>
+      </ul>
+    </div>
+
   </div>
 
-  <!-- Footer: FAQs -->
-  <footer class="footer" style="margin-top:20px">
-    <div class="footer-grid">
-      <div>
-        <h3 style="margin:0">About the showroom</h3>
-        <div style="color:var(--muted);margin-top:8px">This demo showroom gives a feature-rich example: search, filters, GST and finance calculators, comparison & downloadable specs. Adapt and customize as needed for your dealership.</div>
-      </div>
+  <!-- Inline JS -->
+  <script>
+    // Card hover effects (touch-friendly for mobile)
+    window.addEventListener('load', function() {
+      var cards = document.querySelectorAll('[data-card="hero"]');
+      cards.forEach(function(card) {
+        // Hover for desktop
+        card.addEventListener("mouseenter", function() {
+          this.style.transform = "translateY(-8px) scale(1.02)";
+          this.style.boxShadow = "0 20px 40px rgba(0,0,0,0.7)";
+        });
+        card.addEventListener("mouseleave", function() {
+          this.style.transform = "translateY(0) scale(1)";
+          this.style.boxShadow = "0 10px 24px rgba(15,23,42,0.8)";
+        });
+        
+        // Touch feedback for mobile
+        card.addEventListener("touchstart", function(e) {
+          this.style.transform = "translateY(-4px) scale(1.01)";
+          this.style.boxShadow = "0 16px 30px rgba(0,0,0,0.6)";
+        }, { passive: true });
+        card.addEventListener("touchend", function() {
+          this.style.transform = "translateY(0) scale(1)";
+          this.style.boxShadow = "0 10px 24px rgba(15,23,42,0.8)";
+        }, { passive: true });
+      });
+    });
+  </script>
 
-      <div>
-        <h4 style="margin:0">FAQ</h4>
-        <dl style="margin-top:8px;color:var(--muted)">
-          <dt><strong>How accurate are the GST & on-road estimates?</strong></dt>
-          <dd>Estimates are illustrative. Actual GST, insurance, registration and road tax vary by state and dealer. Always confirm with your dealer or RTO.</dd>
-          <dt><strong>Can I add my own bikes?</strong></dt>
-          <dd>Yes — open the script section and add entries to the bikes array (objects contain price, gstPercent, specs, images, etc.).</dd>
-        </dl>
-      </div>
-
-      <div>
-        <h4 style="margin:0">Contact</h4>
-        <div style="margin-top:8px;color:var(--muted)">
-          Email: info@bikeshowroom.example<br/>Phone: +91 98765 43210<br/>
-          Address: 42 Showroom Lane, City
-        </div>
-      </div>
-    </div>
-  </footer>
-</div>
-
-<script>
-/*
-  Inline JavaScript powering the showroom:
-  - Data: bikes array (sample)
-  - Rendering: catalog, cards, modals
-  - Actions: search, filter, sort, GST calc, EMI calc, compare, download specs
-*/
-
-/* -------- Sample bike data -------- */
-const bikes = [
-  {
-    id: "b1",
-    name: "Meteor 350",
-    brand: "Royal Rider",
-    type: "Cruiser",
-    image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1a6fd0e9b8a4f4978b79d0f5789c1b0a",
-    exShowroom: 175000,
-    gstPercent: 18,
-    engine: "349 cc, Single cylinder, Air-cooled",
-    power: "20 bhp @ 6100 rpm",
-    torque: "27 Nm @ 4000 rpm",
-    mileage: 35,
-    weight: 187,
-    tank: "15 L",
-    features: ["ABS", "LED headlamp", "Bluetooth"],
-    warranty: "3 years or 30,000 km",
-    description: "A classic cruiser with modern tech, balanced performance and comfortable ergonomics for city and highway rides.",
-  },
-  {
-    id: "b2",
-    name: "Falcon R6",
-    brand: "AeroMoto",
-    type: "Sport",
-    image: "https://images.unsplash.com/photo-1611978091589-327dcbc2b7ea?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=47b26cbf06efa3b0fea2c4b7a2a8f9fb",
-    exShowroom: 750000,
-    gstPercent: 28,
-    engine: "659 cc, Twin cylinder, Liquid-cooled",
-    power: "78 bhp @ 9000 rpm",
-    torque: "61 Nm @ 7000 rpm",
-    mileage: 18,
-    weight: 210,
-    tank: "17 L",
-    features: ["Quickshifter", "Riding modes", "Full TFT"],
-    warranty: "2 years",
-    description: "Track-focused sportbike with aggressive ergonomics, cutting-edge electronics and high-revving performance.",
-  },
-  {
-    id: "b3",
-    name: "Commuter 125",
-    brand: "UrbanRide",
-    type: "Commuter",
-    image: "https://images.unsplash.com/photo-1518843875459-f738682238f6?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=0b3c58b47140b6d8c030734a2d6b1b8b",
-    exShowroom: 85000,
-    gstPercent: 18,
-    engine: "124.9 cc, Single cylinder, Air-cooled",
-    power: "9 bhp",
-    torque: "10.5 Nm",
-    mileage: 65,
-    weight: 118,
-    tank: "12 L",
-    features: ["CBS", "Alloy wheels"],
-    warranty: "2 years",
-    description: "Practical and frugal commuter for everyday use with excellent mileage and low running costs.",
-  },
-  {
-    id: "b4",
-    name: "TrailBlazer 500",
-    brand: "Xplore",
-    type: "Adventure",
-    image: "https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=7f427a3b93b3b8f160d0994b2b9b4f4d",
-    exShowroom: 420000,
-    gstPercent: 28,
-    engine: "499 cc, Single cylinder, Liquid-cooled",
-    power: "48 bhp",
-    torque: "46 Nm",
-    mileage: 22,
-    weight: 202,
-    tank: "18 L",
-    features: ["Long travel suspension", "Skid plate", "Pannier mounts"],
-    warranty: "3 years",
-    description: "Built to explore — comfortable upright seating, big fuel tank and protective features for long trips.",
-  },
-  {
-    id: "b5",
-    name: "Electro Glide",
-    brand: "VoltWheels",
-    type: "Commuter",
-    image: "https://images.unsplash.com/photo-1612402045730-f9f7f3f3b87f?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2b2b8e0bbf8d3a2f765376a5275d7b49",
-    exShowroom: 195000,
-    gstPercent: 18,
-    engine: "Electric motor, 10 kW",
-    power: "13.4 bhp",
-    torque: "45 Nm",
-    mileage: 0,
-    range: 180,
-    weight: 140,
-    tank: "N/A",
-    features: ["Regenerative braking","Fast charging support","App connectivity"],
-    warranty: "5 years battery warranty",
-    description: "Zero-emission electric commuter with smart connectivity and practical range for urban travel.",
-  },
-  {
-    id: "b6",
-    name: "Vintage 450",
-    brand: "Heritage",
-    type: "Cruiser",
-    image: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=a6b0c1e9d5ce9ec0b1d7b7d7a6a2c4dd",
-    exShowroom: 225000,
-    gstPercent: 18,
-    engine: "448 cc, Single cylinder, Air-cooled",
-    power: "27 bhp",
-    torque: "38 Nm",
-    mileage: 30,
-    weight: 195,
-    tank: "16 L",
-    features: ["Classic styling","Chrome finishes"],
-    warranty: "2 years",
-    description: "Classic looks with modern reliability: an approachable cruiser for relaxed rides.",
-  },
-  {
-    id: "b7",
-    name: "Street 300",
-    brand: "Pulse",
-    type: "Sport",
-    image: "https://images.unsplash.com/photo-1605462863863-3c929f62d62b?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=8f4b6fff1ea4f7b6b4b8b6a4c6a2f8b1",
-    exShowroom: 260000,
-    gstPercent: 28,
-    engine: "292 cc, Single cylinder, Liquid-cooled",
-    power: "32 bhp",
-    torque: "27 Nm",
-    mileage: 28,
-    weight: 165,
-    tank: "12 L",
-    features: ["Slipper clutch","LED console"],
-    warranty: "3 years",
-    description: "A lively street sport bike offering a great balance of agility and everyday usability.",
-  },
-  {
-    id: "b8",
-    name: "DualX 250",
-    brand: "TrailCraft",
-    type: "Adventure",
-    image: "https://images.unsplash.com/photo-1601747953449-18d9b7df6f95?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=0ad0bc6a6c3b1b9f4b9b8e6b3a7c9cfb",
-    exShowroom: 175000,
-    gstPercent: 18,
-    engine: "248 cc, Single cylinder, Liquid-cooled",
-    power: "26 bhp",
-    torque: "23 Nm",
-    mileage: 32,
-    weight: 172,
-    tank: "14 L",
-    features: ["Spoked wheels","Switchable ABS"],
-    warranty: "2 years",
-    description: "Compact adventure bike that’s easy to ride off-road and in-town; great for new riders and explorers.",
-  }
-];
-
-/* -------- State (compare selection) -------- */
-let compareSelected = [];
-
-/* -------- Utility formatters -------- */
-const fmtR = n => typeof n === 'number' ? '₹' + n.toLocaleString('en-IN') : n;
-const fmtNum = n => n === undefined ? '-' : n;
-
-/* -------- Render catalog -------- */
-function renderCatalog(list){
-  const container = document.getElementById('catalog');
-  container.innerHTML = '';
-  list.forEach(b => {
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <img loading="lazy" src="${b.image}" alt="${escapeHtml(b.name)}">
-      <div class="meta">
-        <div>
-          <div style="font-weight:800">${escapeHtml(b.name)}</div>
-          <div style="font-size:13px;color:var(--muted)">${escapeHtml(b.brand)} • ${escapeHtml(b.type)}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="price">${fmtR(b.exShowroom)}</div>
-          <div style="font-size:12px;color:var(--muted)">GST ${b.gstPercent}%</div>
-        </div>
-      </div>
-
-      <div class="specs" style="margin-top:6px">
-        <div class="spec">${escapeHtml(b.engine||'—')}</div>
-        <div class="spec">Power: ${escapeHtml(b.power||'—')}</div>
-        <div class="spec">Mileage: ${fmtNum(b.mileage)} kmpl</div>
-      </div>
-
-      <div class="actions">
-        <button class="btn small" onclick="openModal('${b.id}')">View details</button>
-        <button class="btn ghost small" onclick="openGSTModal('${b.id}')">GST Calc</button>
-        <button class="btn ghost small" onclick="addCompare('${b.id}', this)">Compare</button>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-
-  // update count
-  document.getElementById('countBikes').textContent = list.length;
-}
-
-/* -------- Search / Filter / Sort -------- */
-function applyFilters(){
-  const q = (document.getElementById('search').value||'').trim().toLowerCase();
-  const type = document.getElementById('typeFilter').value;
-  const sortBy = document.getElementById('sortBy').value;
-
-  let filtered = bikes.filter(b => {
-    const hay = (b.name + ' ' + b.brand + ' ' + b.type + ' ' + (b.engine||'') + ' ' + (b.features||[]).join(' ')).toLowerCase();
-    if(q && !hay.includes(q)) return false;
-    if(type && b.type !== type) return false;
-    return true;
-  });
-
-  // Sorting
-  if(sortBy === 'price-asc') filtered.sort((a,b)=>a.exShowroom-b.exShowroom);
-  if(sortBy === 'price-desc') filtered.sort((a,b)=>b.exShowroom-a.exShowroom);
-  if(sortBy === 'power-desc') filtered.sort((a,b)=>parsePower(b.power)-parsePower(a.power));
-  if(sortBy === 'mileage-desc') filtered.sort((a,b)=> (b.mileage||0) - (a.mileage||0));
-
-  renderCatalog(filtered);
-}
-
-function parsePower(powerStr){
-  if(!powerStr) return 0;
-  const m = powerStr.match(/(\d+\.?\d*)\s*bhp/);
-  return m ? parseFloat(m[1]) : 0;
-}
-
-function resetFilters(){
-  document.getElementById('search').value = '';
-  document.getElementById('typeFilter').value = '';
-  document.getElementById('sortBy').value = 'relevance';
-  applyFilters();
-}
-
-/* -------- Modal & details -------- */
-function openModal(id){
-  const b = bikes.find(x=>x.id===id);
-  if(!b) return;
-  document.getElementById('modalBackdrop').style.display = 'flex';
-  const m = document.getElementById('modal');
-  m.setAttribute('aria-hidden','false');
-
-  document.getElementById('modalImage').src = b.image;
-  document.getElementById('modalTitle').textContent = b.name + ' — ' + b.brand;
-  document.getElementById('modalSub').textContent = `${b.type} • ${b.description}`;
-  document.getElementById('modalDesc').textContent = b.description || '';
-  document.getElementById('modalPrice').textContent = fmtR(b.exShowroom);
-  document.getElementById('modalEngine').textContent = b.engine || '';
-  document.getElementById('modalPower').textContent = b.power || '';
-
-  // build specs table
-  const specTable = document.getElementById('specTable');
-  specTable.innerHTML = '';
-  addSpecRow(specTable, 'Engine', b.engine);
-  addSpecRow(specTable, 'Power', b.power);
-  addSpecRow(specTable, 'Torque', b.torque);
-  addSpecRow(specTable, 'Mileage / Range', b.mileage ? (b.mileage + ' kmpl') : (b.range ? (b.range + ' km (range)') : '-'));
-  addSpecRow(specTable, 'Weight', b.weight ? (b.weight + ' kg') : '-');
-  addSpecRow(specTable, 'Fuel Tank', b.tank || '-');
-  addSpecRow(specTable, 'Warranty', b.warranty || '-');
-  addSpecRow(specTable, 'Features', b.features ? b.features.join(', ') : '-');
-  // attach modal GST button
-  document.getElementById('modalGSTBtn').onclick = () => { document.getElementById('basePrice').value = b.exShowroom; document.getElementById('gstPercent').value = b.gstPercent; calcGSTLocal(); };
-  document.getElementById('modalEMIBtn').onclick = () => { document.getElementById('emiPrincipal').value = Math.round(b.exShowroom*0.8); document.getElementById('emiRate').value = 9.5; document.getElementById('emiTenure').value = 36; calcEMI(); };
-}
-
-function addSpecRow(container, key, val){
-  const tr = document.createElement('tr');
-  tr.innerHTML = `<th>${escapeHtml(key)}</th><td>${escapeHtml(val || '-')}</td>`;
-  container.appendChild(tr);
-}
-
-function closeModal(e){
-  if(e && e.target && e.target.id === 'modalBackdrop') {
-    document.getElementById('modalBackdrop').style.display = 'none';
-    document.getElementById('modal').setAttribute('aria-hidden','true');
-  } else {
-    // close via button
-    document.getElementById('modalBackdrop').style.display = 'none';
-    document.getElementById('modal').setAttribute('aria-hidden','true');
-  }
-}
-
-/* -------- Download specs (JSON) -------- */
-function downloadSpec(){
-  const title = document.getElementById('modalTitle').textContent || 'bike-spec';
-  const bikeName = title.replace(/\s+/g,'_');
-  // find currently visible bike via title
-  const b = bikes.find(x => (x.name + ' — ' + x.brand) === title);
-  if(!b) return alert('Spec not found');
-  const blob = new Blob([JSON.stringify(b, null, 2)], {type: 'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = bikeName + '.json';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-/* -------- GST Calculator (sidebar) -------- */
-function calcGSTLocal(){
-  const base = Number(document.getElementById('basePrice').value || 0);
-  const gst = Number(document.getElementById('gstPercent').value || 0);
-  if(!base || gst <= 0){ alert('Please enter valid base price and GST %'); return; }
-  const gstAmount = Math.round(base * gst / 100);
-  // approximate insurance & road tax - these are *estimates* (for demo only)
-  const insurance = Math.round(base * 0.03); // 3%
-  const roadTax = Math.round(base * 0.07); // 7%
-  const total = base + gstAmount + insurance + roadTax;
-  document.getElementById('g1').textContent = gst + '%';
-  document.getElementById('g2').textContent = fmtR(gstAmount);
-  document.getElementById('g3').textContent = fmtR(insurance);
-  document.getElementById('g4').textContent = fmtR(roadTax);
-  document.getElementById('g5').textContent = fmtR(total);
-  document.getElementById('gstBreakdownTitle').textContent = 'Breakdown for ' + fmtR(base);
-  document.getElementById('gstResult').style.display = 'block';
-}
-
-function clearGSTCalc(){
-  document.getElementById('basePrice').value = '';
-  document.getElementById('gstPercent').value = '';
-  document.getElementById('gstResult').style.display = 'none';
-}
-
-/* -------- EMI calculator -------- */
-function calcEMI(){
-  const P = Number(document.getElementById('emiPrincipal').value || 0);
-  const annualRate = Number(document.getElementById('emiRate').value || 0);
-  const N = Number(document.getElementById('emiTenure').value || 0);
-  if(!P || !annualRate || !N){ alert('Please enter principal, annual rate and tenure'); return; }
-  const r = annualRate / 12 / 100; // monthly rate
-  const monthly = (P * r) / (1 - Math.pow(1+r, -N));
-  const total = monthly * N;
-  const interest = total - P;
-  document.getElementById('emiMonthly').textContent = fmtR(Math.round(monthly));
-  document.getElementById('emiTotal').textContent = fmtR(Math.round(total));
-  document.getElementById('emiInterest').textContent = fmtR(Math.round(interest));
-  document.getElementById('emiResult').style.display = 'block';
-}
-
-function clearEMI(){
-  document.getElementById('emiPrincipal').value = '';
-  document.getElementById('emiRate').value = '';
-  document.getElementById('emiTenure').value = '';
-  document.getElementById('emiResult').style.display = 'none';
-}
-
-/* -------- Compare feature -------- */
-function addCompare(id, btnRef){
-  const idx = compareSelected.indexOf(id);
-  if(idx === -1 && compareSelected.length >= 3){
-    alert('You can compare up to 3 bikes at once.');
-    return;
-  }
-  if(idx === -1){
-    compareSelected.push(id);
-    btnRef && (btnRef.textContent = 'Added');
-  } else {
-    compareSelected.splice(idx,1);
-    btnRef && (btnRef.textContent = 'Compare');
-  }
-  updateCompareUI();
-}
-
-function updateCompareUI(){
-  const listEl = document.getElementById('compareList');
-  listEl.innerHTML = '';
-  compareSelected.forEach(id => {
-    const bike = bikes.find(b=>b.id===id);
-    const el = document.createElement('div');
-    el.style.display='flex';
-    el.style.alignItems='center';
-    el.style.gap='8px';
-    el.innerHTML = `<img src="${bike.image}" alt="${bike.name}" style="width:48px;height:34px;object-fit:cover;border-radius:6px"><div style="font-size:13px">${bike.name}</div>`;
-    listEl.appendChild(el);
-  });
-  document.getElementById('countCompare').textContent = compareSelected.length;
-  document.getElementById('compareBar').style.display = compareSelected.length ? 'flex' : 'none';
-}
-
-function showCompareModal(){
-  if(compareSelected.length < 2){ alert('Select at least 2 bikes to compare.'); return; }
-  // render a quick compare modal by replacing modal content
-  const modalBackdrop = document.getElementById('modalBackdrop');
-  modalBackdrop.style.display = 'flex';
-  const m = document.getElementById('modal');
-  m.setAttribute('aria-hidden','false');
-
-  // build compare table HTML
-  const cols = compareSelected.map(id => bikes.find(b=>b.id===id));
-  const title = cols.map(c => c.name).join(' / ');
-  document.getElementById('modalTitle').textContent = 'Compare: ' + title;
-  document.getElementById('modalSub').textContent = '';
-  document.getElementById('modalImage').src = cols[0].image;
-  document.getElementById('modalDesc').textContent = '';
-
-  // left side we'll show a highlights column; right side specs table will show multiple columns
-  const left = m.children[0]; // content column
-  left.innerHTML = `<h3 style="margin-top:0">Selected bikes</h3><div style="display:flex;gap:8px;flex-wrap:wrap"></div>`;
-  const grid = left.querySelector('div');
-  cols.forEach(c => {
-    const el = document.createElement('div');
-    el.style.minWidth = '180px';
-    el.style.background = '#fff';
-    el.style.borderRadius = '8px';
-    el.style.padding = '8px';
-    el.style.boxShadow = '0 6px 14px rgba(2,6,23,0.06)';
-    el.innerHTML = `<img src="${c.image}" style="width:100%;height:100px;object-fit:cover;border-radius:6px"><div style="font-weight:700;margin-top:6px">${c.name}</div><div style="color:var(--muted);font-size:13px">${c.brand} • ${c.type}</div><div style="font-weight:800;margin-top:6px">${fmtR(c.exShowroom)}</div>`;
-    grid.appendChild(el);
-  });
-
-  // right side: table of specs across bikes
-  const aside = m.children[1];
-  const rows = [
-    ['Brand'].concat(cols.map(c=>c.brand)),
-    ['Ex-showroom'].concat(cols.map(c=>fmtR(c.exShowroom))),
-    ['GST %'].concat(cols.map(c=>c.gstPercent + '%')),
-    ['Engine'].concat(cols.map(c=>c.engine||'-')),
-    ['Power'].concat(cols.map(c=>c.power||'-')),
-    ['Torque'].concat(cols.map(c=>c.torque||'-')),
-    ['Mileage/Range'].concat(cols.map(c=> c.mileage ? (c.mileage + ' kmpl') : (c.range ? (c.range + ' km') : '-'))),
-    ['Weight'].concat(cols.map(c=>c.weight ? (c.weight + ' kg') : '-')),
-    ['Tank'].concat(cols.map(c=>c.tank || '-')),
-    ['Features'].concat(cols.map(c=> (c.features||[]).join(', ') || '-')),
-    ['Warranty'].concat(cols.map(c=>c.warranty || '-'))
-  ];
-  let html = '<div style="overflow:auto"><table class="table"><thead><tr><th></th>';
-  cols.forEach(c=> html += `<th>${escapeHtml(c.name)}</th>`);
-  html += '</tr></thead><tbody>';
-  rows.forEach(r => {
-    html += `<tr><th style="white-space:nowrap;">${escapeHtml(r[0])}</th>`;
-    r.slice(1).forEach(v => html += `<td>${escapeHtml(v)}</td>`);
-    html += '</tr>';
-  });
-  html += '</tbody></table></div><div style="margin-top:8px;display:flex;gap:8px"><button class="btn" onclick="downloadCompare()">Download Comparison</button><button class="btn ghost" onclick="clearCompare()">Close</button></div>';
-  aside.innerHTML = html;
-}
-
-/* Download compare as CSV */
-function downloadCompare(){
-  if(compareSelected.length < 1) return;
-  const cols = compareSelected.map(id => bikes.find(b=>b.id===id));
-  const rows = [
-    ['Name'].concat(cols.map(c=>c.name)),
-    ['Brand'].concat(cols.map(c=>c.brand)),
-    ['Ex-showroom'].concat(cols.map(c=>c.exShowroom)),
-    ['GST%'].concat(cols.map(c=>c.gstPercent)),
-    ['Engine'].concat(cols.map(c=>c.engine)),
-    ['Power'].concat(cols.map(c=>c.power)),
-    ['Mileage/Range'].concat(cols.map(c=> c.mileage ? (c.mileage + ' kmpl') : (c.range ? (c.range + ' km') : ''))),
-    ['Weight'].concat(cols.map(c=>c.weight)),
-    ['Features'].concat(cols.map(c=> (c.features||[]).join('; '))),
-  ];
-  let csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
-  const blob = new Blob([csv],{type:'text/csv'});
-  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download = 'bike-compare.csv'; a.click(); URL.revokeObjectURL(url);
-}
-
-/* Clear compare */
-function clearCompare(){
-  compareSelected = [];
-  updateCompareUI();
-  // re-render to reset buttons text
-  applyFilters();
-}
-
-/* -------- Utility escape to avoid injection in HTML insertion -------- */
-function escapeHtml(text){
-  if(text===null || text===undefined) return '';
-  return String(text)
-    .replaceAll('&','&amp;')
-    .replaceAll('<','&lt;')
-    .replaceAll('>','&gt;')
-    .replaceAll('"','&quot;')
-    .replaceAll("'", '&#039;');
-}
-
-/* -------- Events ---------- */
-document.getElementById('search').addEventListener('input', ()=>{ applyFilters(); });
-document.getElementById('typeFilter').addEventListener('change', applyFilters);
-document.getElementById('sortBy').addEventListener('change', applyFilters);
-
-/* -------- Init render ---------- */
-applyFilters();
-updateCompareUI();
-
-/* -------- small helper for opening GST directly from card -------- */
-function openGSTModal(id){
-  const b = bikes.find(x=>x.id===id);
-  if(!b) return;
-  document.getElementById('basePrice').value = b.exShowroom;
-  document.getElementById('gstPercent').value = b.gstPercent;
-  calcGSTLocal();
-  window.scrollTo({top:0, behavior:'smooth'});
-}
-
-/* Close modal when pressing ESC */
-document.addEventListener('keydown', e => {
-  if(e.key === 'Escape'){
-    document.getElementById('modalBackdrop').style.display = 'none';
-    document.getElementById('modal').setAttribute('aria-hidden','true');
-  }
-});
-</script>
 </body>
 </html>
