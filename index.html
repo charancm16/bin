@@ -1,147 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>moto</title>
+  <meta charset="UTF-8" />
+  <title>Bento Credit Card Grid</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --bg-page: #f3f4f6;
+      --card-radius: 22px;
+      --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.08);
+
+      --purple: #e5ddff;
+      --pink: #ffd7df;
+      --yellow: #ffe9a9;
+      --green: #e3f0c4;
+      --peach: #ffe0c8;
+      --blue: #e5f3ff;
+
+      --text-main: #111827;
+      --text-muted: #4b5563;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      background: var(--bg-page);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .bento-wrapper {
+      max-width: 1120px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 32px;
+      padding: 32px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-auto-rows: 180px;
+      gap: 20px;
+    }
+
+    .card {
+      border-radius: var(--card-radius);
+      padding: 20px 22px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card h2 {
+      font-size: 1.25rem;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 260px;
+    }
+
+    /* Background colors for each tile */
+    .card-rewards { background: var(--purple); }
+    .card-manage  { background: var(--pink); }
+    .card-goals   { background: var(--yellow); }
+    .card-lounges { background: var(--green); }
+    .card-strategy{ background: var(--peach); }
+    .card-apply   { background: var(--blue); }
+
+    /* Layout spans for laptop/desktop */
+    .card-rewards {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .card-strategy {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    .card-apply {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    .card-manage,
+    .card-goals,
+    .card-lounges {
+      grid-column: span 2;
+      grid-row: span 1;
+    }
+
+    /* Simple illustrated placeholders (you can replace with real SVGs/images) */
+    .illustration {
+      position: absolute;
+      right: 16px;
+      bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pill {
+      width: 54px;
+      height: 34px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.7);
+    }
+
+    .circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .bar {
+      width: 70px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.12);
+    }
+
+    .card-apply .illustration {
+      bottom: 18px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      height: 16px;
+      width: 110px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.06);
+    }
+
+    /* MOBILE VIEW (stacked) */
+    @media (max-width: 768px) {
+      body {
+        padding: 16px;
+      }
+
+      .bento-wrapper {
+        padding: 20px;
+        border-radius: 24px;
+      }
+
+      .bento-grid {
+        grid-template-columns: 1fr;
+        grid-auto-rows: auto;
+      }
+
+      .card {
+        min-height: 180px;
+      }
+
+      .card-rewards,
+      .card-strategy,
+      .card-apply,
+      .card-manage,
+      .card-goals,
+      .card-lounges {
+        grid-column: span 1;
+        grid-row: auto;
+      }
+
+      .card h2 {
+        font-size: 1.1rem;
+      }
+
+      .illustration {
+        opacity: 0.9;
+        right: 10px;
+        bottom: 12px;
+      }
+    }
+  </style>
 </head>
-<body style="margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(135deg,#0f172a,#020617);color:#e5e7eb;min-height:100vh;">
+<body>
+  <main class="bento-wrapper">
+    <section class="bento-grid" aria-label="Credit card features">
+      <!-- Maximize Card Rewards -->
+      <article class="card card-rewards">
+        <div>
+          <h2>Maximize Card Rewards</h2>
+          <p>Maximize rewards on every purchase. Identify top cards for each spend.</p>
+        </div>
 
-  <!-- Top Banner -->
-  <div style="padding:15px 20px;background:rgba(15,23,42,0.95);border-bottom:1px solid #1f2937;display:flex;flex-direction:column;gap:10px;align-items:center;position:sticky;top:0;backdrop-filter:blur(8px);z-index:10;">
-    <div style="text-align:center;width:100%;">
-      <h1 style="margin:0;font-size:clamp(20px,5vw,28px);color:#f97316;">moto</h1>
-      <p style="margin:4px 0 0;font-size:clamp(12px,3vw,14px);color:#9ca3af;">Whenever I feel low, I come here, breathe, and rise again.</p>
-    </div>
-  </div>
+        <div class="illustration">
+          <div class="circle"></div>
+          <div>
+            <div class="pill"></div>
+            <div class="bar" style="margin-top:10px;"></div>
+          </div>
+        </div>
+      </article>
 
-  <!-- Main Content -->
-  <div style="max-width:1100px;margin:20px auto;padding:0 15px;">
+      <!-- Manage Cards -->
+      <article class="card card-manage">
+        <div>
+          <h2>Manage Cards</h2>
+          <p>Manage multiple cards, track benefits, &amp; set payment reminders.</p>
+        </div>
 
-    <!-- Intro Quote -->
-    <div style="padding:15px 20px;border-radius:14px;background:linear-gradient(135deg,rgba(15,118,110,0.2),rgba(56,189,248,0.15));border:1px solid rgba(34,197,94,0.4);box-shadow:0 10px 25px rgba(15,23,42,0.7);margin-bottom:20px;">
-      <p style="margin:0;font-size:clamp(13px,4vw,15px);line-height:1.6;color:#e5e7eb;">
-        This page reminds me that discipline, hard work and self‑belief can turn any tough day into a powerful comeback.
-      </p>
-    </div>
+        <div class="illustration">
+          <div class="pill"></div>
+          <div class="pill" style="margin-top:-8px;"></div>
+        </div>
+      </article>
 
-    <!-- Inspiration Cards -->
-    <h2 style="margin:25px 0 15px;font-size:clamp(18px,5vw,22px);color:#fbbf24;text-align:center;">My Inspiration Heroes</h2>
+      <!-- Set Goals -->
+      <article class="card card-goals">
+        <div>
+          <h2>Set Goals</h2>
+          <p>Set trip goals or target annual fee waivers.</p>
+        </div>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:15px;padding:0 5px;">
+        <div class="illustration">
+          <div class="circle"></div>
+          <div class="bar"></div>
+        </div>
+      </article>
 
-      <!-- Virat Kohli -->
-      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #1d4ed8;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
-        <div style="position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(59,130,246,0.25),transparent);pointer-events:none;"></div>
-        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#60a5fa;">Virat Kohli</h3>
-        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Cricketer • King of intensity</p>
-        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
-          Teaches me relentless consistency, fitness, and playing every moment with fire and focus.
-        </p>
-      </div>
+      <!-- Lounges -->
+      <article class="card card-lounges">
+        <div>
+          <h2>Lounges</h2>
+          <p>Track &amp; find eligible airport &amp; railway lounge access.</p>
+        </div>
 
-      <!-- Dulquer Salmaan -->
-      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #a855f7;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
-        <div style="position:absolute;inset:0;background:radial-gradient(circle at top right,rgba(168,85,247,0.25),transparent);pointer-events:none;"></div>
-        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#d8b4fe;">Dulquer Salmaan</h3>
-        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Actor • Versatile performer</p>
-        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
-          Reminds me to be calm, humble and keep improving my craft without making noise.
-        </p>
-      </div>
+        <div class="tag-row">
+          <div class="tag"></div>
+          <div class="tag" style="width:130px;"></div>
+        </div>
+      </article>
 
-      <!-- PV Sindhu -->
-      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #22c55e;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
-        <div style="position:absolute;inset:0;background:radial-gradient(circle at bottom left,rgba(34,197,94,0.25),transparent);pointer-events:none;"></div>
-        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#4ade80;">P. V. Sindhu</h3>
-        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Badminton champion</p>
-        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
-          Shows the power of discipline, mental strength, and bouncing back after tough losses.
-        </p>
-      </div>
+      <!-- Credit Card Strategy -->
+      <article class="card card-strategy">
+        <div>
+          <h2>Credit Card Strategy</h2>
+          <p>Personalized credit card plan that fits your lifestyle.</p>
+        </div>
 
-      <!-- Nani -->
-      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #f97316;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
-        <div style="position:absolute;inset:0;background:radial-gradient(circle at bottom right,rgba(249,115,22,0.25),transparent);pointer-events:none;"></div>
-        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#fdba74;">Nani</h3>
-        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Actor • Natural star</p>
-        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
-          Inspires me to stay rooted, be real, and trust slow and steady growth.
-        </p>
-      </div>
+        <div class="illustration">
+          <div class="circle"></div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <div class="bar" style="width:80px;"></div>
+            <div class="bar" style="width:60px;"></div>
+            <div class="bar" style="width:90px;"></div>
+          </div>
+        </div>
+      </article>
 
-      <!-- Lionel Messi -->
-      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #38bdf8;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
-        <div style="position:absolute;inset:0;background:radial-gradient(circle at top,rgba(56,189,248,0.25),transparent);pointer-events:none;"></div>
-        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#7dd3fc;">Lionel Messi</h3>
-        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Football legend</p>
-        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
-          From health problems and rejections to world champion, he proves that quiet hard work can create history.
-        </p>
-      </div>
+      <!-- Find, Compare & Apply -->
+      <article class="card card-apply">
+        <div>
+          <h2>Find, Compare &amp; Apply</h2>
+          <p>Discover ideal cards. Compare features and apply in minutes.</p>
+        </div>
 
-      <!-- Cristiano Ronaldo -->
-      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #ef4444;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
-        <div style="position:absolute;inset:0;background:radial-gradient(circle at left,rgba(239,68,68,0.25),transparent);pointer-events:none;"></div>
-        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#fecaca;">Cristiano Ronaldo</h3>
-        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Football icon</p>
-        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
-          His mindset shows that talent is useless without crazy hard work and self‑belief.
-        </p>
-      </div>
-
-      <!-- Hardik Pandya -->
-      <div data-card="hero" style="padding:18px;border-radius:16px;background:rgba(15,23,42,0.9);border:1px solid #eab308;box-shadow:0 10px 24px rgba(15,23,42,0.8);position:relative;overflow:hidden;transition:transform 0.3s ease,box-shadow 0.3s ease;">
-        <div style="position:absolute;inset:0;background:radial-gradient(circle at center,rgba(234,179,8,0.25),transparent);pointer-events:none;"></div>
-        <h3 style="margin:0 0 4px;font-size:clamp(15px,4vw,17px);color:#facc15;">Hardik Pandya</h3>
-        <p style="margin:0 0 6px;font-size:clamp(12px,3vw,13px);color:#9ca3af;">Cricketer • Comeback king</p>
-        <p style="margin:0;font-size:clamp(12px,3vw,13px);line-height:1.6;">
-          His journey from financial struggle to champion reminds me to turn every setback into a stronger comeback.
-        </p>
-      </div>
-
-    </div>
-
-    <!-- Short Daily Reminder -->
-    <div style="margin:30px 0;padding:20px;border-radius:16px;background:rgba(20,83,45,0.3);border:1px solid rgba(52,211,153,0.5);box-shadow:0 10px 25px rgba(15,23,42,0.7);">
-      <h2 style="margin:0 0 15px;font-size:clamp(17px,4vw,20px);color:#34d399;text-align:center;">My Daily Reminder</h2>
-      <ul style="margin:0;padding-left:20px;font-size:clamp(13px,3.5vw,14px);line-height:1.7;color:#d1d5db;">
-        <li>One focused hour now is better than ten distracted hours later.</li>
-        <li>Progress can be very small today, but it still moves the story forward.</li>
-        <li>When it feels hard, that is exactly when champions are created.</li>
-      </ul>
-    </div>
-
-  </div>
-
-  <!-- Inline JS -->
-  <script>
-    // Card hover effects (touch-friendly for mobile)
-    window.addEventListener('load', function() {
-      var cards = document.querySelectorAll('[data-card="hero"]');
-      cards.forEach(function(card) {
-        // Hover for desktop
-        card.addEventListener("mouseenter", function() {
-          this.style.transform = "translateY(-8px) scale(1.02)";
-          this.style.boxShadow = "0 20px 40px rgba(0,0,0,0.7)";
-        });
-        card.addEventListener("mouseleave", function() {
-          this.style.transform = "translateY(0) scale(1)";
-          this.style.boxShadow = "0 10px 24px rgba(15,23,42,0.8)";
-        });
-        
-        // Touch feedback for mobile
-        card.addEventListener("touchstart", function(e) {
-          this.style.transform = "translateY(-4px) scale(1.01)";
-          this.style.boxShadow = "0 16px 30px rgba(0,0,0,0.6)";
-        }, { passive: true });
-        card.addEventListener("touchend", function() {
-          this.style.transform = "translateY(0) scale(1)";
-          this.style.boxShadow = "0 10px 24px rgba(15,23,42,0.8)";
-        }, { passive: true });
-      });
-    });
-  </script>
-
+        <div class="illustration">
+          <div class="pill" style="width:150px;"></div>
+        </div>
+      </article>
+    </section>
+  </main>
 </body>
 </html>
