@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Simple Bento Grid</title>
+  <title>Named Bento Grid</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -38,13 +38,14 @@
     }
 
     .canvas {
-      max-width: 980px;
-      width: 100%;
-      background: #ffffff;
-      border-radius: 36px;
-      padding: 28px;
-      box-shadow: var(--shadow-soft);
-    }
+  max-width: 1500px;   /* increased from 980px */
+  width: 100%;
+  background: #ffffff;
+  border-radius: 36px;
+  padding: 28px;
+  box-shadow: var(--shadow-soft);
+}
+
 
     .bento-grid {
       display: grid;
@@ -56,6 +57,19 @@
     .box {
       border-radius: var(--card-radius);
       background: #e5e7eb;
+      display: flex;
+      align-items: flex-start;   /* top */
+      justify-content: flex-start; /* left */
+      padding: 16px 18px;        /* space from edges */
+      text-align: left;
+    }
+
+    .box span {
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: capitalize;
+      color: #111827;
     }
 
     .box-rewards  { background: var(--purple); }
@@ -86,15 +100,13 @@
       grid-row: 2 / span 1;
     }
 
-    /* 5th box (wider now: span 4 columns) */
     .box-strategy {
-      grid-column: 1 / span 4;  /* was span 3 */
+      grid-column: 1 / span 4;
       grid-row: 3 / span 2;
     }
 
-    /* 6th box (narrower now: span 2 columns) */
     .box-apply {
-      grid-column: 5 / span 2;  /* was 4 / span 3 */
+      grid-column: 5 / span 2;
       grid-row: 3 / span 2;
     }
 
@@ -125,18 +137,22 @@
         grid-column: auto;
         grid-row: auto;
       }
+
+      .box span {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
 <body>
   <div class="canvas">
-    <section class="bento-grid" aria-label="Simple bento layout">
-      <div class="box box-rewards"></div>
-      <div class="box box-manage"></div>
-      <div class="box box-goals"></div>
-      <div class="box box-lounges"></div>
-      <div class="box box-strategy"></div>
-      <div class="box box-apply"></div>
+    <section class="bento-grid" aria-label="Named bento layout">
+      <div class="box box-rewards"><span>Gym</span></div>
+      <div class="box box-manage"><span>Money</span></div>
+      <div class="box box-goals"><span>Skill</span></div>
+      <div class="box box-lounges"><span>College</span></div>
+      <div class="box box-strategy"><span>Food</span></div>
+      <div class="box box-apply"><span>Management</span></div>
     </section>
   </div>
 </body>
