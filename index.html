@@ -7,19 +7,17 @@
 
   <style>
     :root {
-      /* Page background */
-      --bg-page: #8FA8FF;        
+      --bg-page: #8FA8FF;
 
       --card-radius: 22px;
       --shadow-soft: 0 18px 32px rgba(143, 168, 255, 0.25);
 
-      /* Updated colors - UNIQUE */
-      --purple: #60A5FA;     /* 1st: Gym - Medium Blue */
-      --pink: #23ced9;       /* 2nd: Money - Bright Cyan */
-      --yellow: #F59E0B;     /* 3rd: Skill - Medium Gold */
-      --green: #10B981;      /* 4th: College - Vibrant Green */
-      --peach: #dba3e0;      /* 5th: Food - Soft Purple (CHANGED) */
-      --blue: #2563EB;       /* 6th: Management - Medium Deep Blue */
+      --purple: #60A5FA;   /* Gym */
+      --pink: #23ced9;     /* Money */
+      --yellow: #F59E0B;   /* Skill */
+      --green: #10B981;    /* College */
+      --peach: #dba3e0;    /* Food */
+      --blue: #2563EB;     /* Management */
     }
 
     * {
@@ -58,13 +56,12 @@
     .box {
       border-radius: var(--card-radius);
       display: flex;
+      flex-direction: column;
       align-items: flex-start;
       justify-content: flex-start;
       padding: 28px 32px;
       text-align: left;
       box-shadow: 0 6px 14px rgba(15, 23, 42, 0.12);
-      
-      /* Smooth animation */
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
       overflow: hidden;
@@ -90,14 +87,45 @@
       left: 100%;
     }
 
-    .box span {
-      font-size: 0.98rem;
+    .icon {
+      font-size: 1.6rem;
+      margin-bottom: 8px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .label {
+      font-size: 1.3rem;
       font-weight: 600;
       letter-spacing: 0.04em;
       text-transform: capitalize;
       color: #1F2937;
       z-index: 2;
       position: relative;
+    }
+
+    /* Button on 6th box */
+    .management-btn {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--blue);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 3;
+    }
+
+    .management-btn:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
     }
 
     .box-rewards  { background: var(--purple); }
@@ -166,15 +194,21 @@
 
       .box {
         padding: 24px 26px;
-        transition: all 0.25s ease;
       }
 
-      .box:hover {
-        transform: translateY(-4px) scale(1.01);
+      .label {
+        font-size: 1.2rem;
       }
 
-      .box span {
-        font-size: 0.95rem;
+      .icon {
+        font-size: 1.5rem;
+      }
+
+      .management-btn {
+        bottom: 16px;
+        right: 16px;
+        padding: 6px 16px;
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -182,12 +216,42 @@
 <body>
   <div class="canvas">
     <section class="bento-grid" aria-label="Animated bento layout">
-      <div class="box box-rewards"><span>Gym</span></div>
-      <div class="box box-manage"><span>Money</span></div>
-      <div class="box box-goals"><span>Skill</span></div>
-      <div class="box box-lounges"><span>College</span></div>
-      <div class="box box-strategy"><span>Food</span></div>
-      <div class="box box-apply"><span>Management</span></div>
+      <!-- 1: Gym -->
+      <div class="box box-rewards">
+        <span class="icon" aria-hidden="true">💪</span>
+        <span class="label">Gym</span>
+      </div>
+
+      <!-- 2: Money -->
+      <div class="box box-manage">
+        <span class="icon" aria-hidden="true">💰</span>
+        <span class="label">Money</span>
+      </div>
+
+      <!-- 3: Skill -->
+      <div class="box box-goals">
+        <span class="icon" aria-hidden="true">📚</span>
+        <span class="label">Skill</span>
+      </div>
+
+      <!-- 4: College -->
+      <div class="box box-lounges">
+        <span class="icon" aria-hidden="true">🎓</span>
+        <span class="label">College</span>
+      </div>
+
+      <!-- 5: Food -->
+      <div class="box box-strategy">
+        <span class="icon" aria-hidden="true">🍽️</span>
+        <span class="label">Food</span>
+      </div>
+
+      <!-- 6: Management -->
+      <div class="box box-apply">
+        <span class="icon" aria-hidden="true">📊</span>
+        <span class="label">Management</span>
+        <button class="management-btn">Explore</button>
+      </div>
     </section>
   </div>
 </body>
