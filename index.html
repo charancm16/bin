@@ -601,6 +601,8 @@
       transform: scale(1.5) rotate(10deg);
     }
 
+
+
     .box-college {
       background: var(--indigo);
       grid-column: 3 / span 2;
@@ -618,13 +620,45 @@
     @media (max-width: 768px) {
       .bento-grid {
         grid-template-columns: 1fr;
-        gap: 16px;
+        grid-auto-rows: auto;
+        gap: 20px;
       }
 
       .box {
-        grid-column: 1 !important;
+        grid-column: 1 / -1 !important;
         grid-row: auto !important;
         padding: 24px 28px;
+        min-height: 160px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      /* Adjust images for mobile */
+      .box .person-img {
+        width: 100px;
+        height: 100px;
+        bottom: 10px;
+        right: 10px;
+        transform: scale(1);
+      }
+
+      /* Gym Todo List on Mobile */
+      .box-rewards .gym-todo {
+        margin-top: 10px;
+        gap: 8px;
+      }
+
+      .gym-todo .todo-item {
+        font-size: 0.9rem;
+      }
+
+      /* Stack content nicely */
+      .box-manage,
+      .box-goals,
+      .box-strategy,
+      .box-college {
+        align-items: flex-start;
       }
 
       .canvas {
@@ -714,6 +748,7 @@
           <div class="calories-count">2,000</div>
           <div class="calories-label">Kcal / Day</div>
           <div class="diet-status">Healthy Diet</div>
+
         </div>
         <img src="diet.jpg" alt="Healthy Diet" class="person-img">
       </article>
