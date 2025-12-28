@@ -113,9 +113,8 @@
     }
 
     .icon {
-      font-size: 1.6rem;
-      display: block;
-      margin-bottom: 8px;
+      display: none;
+      /* Hide icons as requested */
     }
 
     .label {
@@ -145,45 +144,63 @@
     .box-manage .money-content {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
+      position: relative;
+      z-index: 2;
+      /* Ensure text is above image */
     }
 
     .box-manage .label {
-      font-size: 1.0rem;
-      /* Further decreased */
+      font-size: 0.9rem;
+      color: rgba(31, 41, 55, 0.6);
+      font-weight: 500;
     }
 
     .box-manage .amount {
-      font-size: 1.25rem;
-      /* Further decreased */
-      font-weight: 700;
+      font-size: 1.6rem;
+      /* Slightly larger to highlight */
+      font-weight: 800;
+      /* Extra bold for highlight */
       color: #1f2937;
-      margin-top: 2px;
+      margin-top: 0;
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
     }
 
     .box-manage .source {
-      font-size: 0.7rem;
-      /* Further decreased */
-      font-weight: 500;
-      color: rgba(31, 41, 55, 0.7);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #2563EB;
+      /* Highlighted in blue */
+      background: rgba(255, 255, 255, 0.5);
+      padding: 2px 8px;
+      border-radius: 20px;
+      width: fit-content;
+      margin-top: 4px;
     }
 
     .box-manage .person-img {
       position: absolute;
-      right: 5px;
-      bottom: 5px;
-      width: 90px;
-      height: 90px;
-      object-fit: contain;
-      opacity: 0.9;
+      right: -15px;
+      bottom: -15px;
+      width: 140px;
+      /* Increased size for zoom effect */
+      height: 140px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      /* Circular shape */
+      border: 4px solid var(--glass-border);
+      opacity: 0.8;
       pointer-events: none;
-      transition: transform 0.3s ease;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+      transform: scale(1.1);
+      /* Zoomed in */
     }
 
     .box-manage:hover .person-img {
-      transform: scale(1.1) rotate(-5deg);
+      transform: scale(1.3) rotate(5deg);
+      opacity: 1;
     }
 
 
@@ -257,37 +274,31 @@
   <main class="canvas" role="main">
     <section class="bento-grid" aria-label="Management dashboard">
       <article class="box box-rewards" tabindex="0">
-        <div class="icon" aria-hidden="true">💪</div>
         <div class="label">Gym</div>
       </article>
 
       <article class="box box-manage" tabindex="0">
-        <div class="icon" aria-hidden="true">💰</div>
         <div class="money-content">
           <div class="label">Savings</div>
           <div class="amount">₹7,500</div>
           <div class="source">Post Office Bank</div>
         </div>
-        <img src="money_person.png" alt="Money collecting person" class="person-img">
+        <img src="money_collector.png" alt="Money Collector" class="person-img">
       </article>
 
       <article class="box box-goals" tabindex="0">
-        <div class="icon" aria-hidden="true">📚</div>
         <div class="label">Skill</div>
       </article>
 
       <article class="box box-lounges" tabindex="0">
-        <div class="icon" aria-hidden="true">🎓</div>
         <div class="label">College</div>
       </article>
 
       <article class="box box-strategy" tabindex="0">
-        <div class="icon" aria-hidden="true">🍽️</div>
         <div class="label">Food</div>
       </article>
 
       <article class="box box-apply" tabindex="0">
-        <div class="icon" aria-hidden="true">📊</div>
         <div class="label">Management</div>
       </article>
     </section>
