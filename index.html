@@ -24,6 +24,7 @@
       --blue: #2563EB;
       --glass-white: rgba(255, 255, 255, 0.4);
       --glass-border: rgba(255, 255, 255, 0.6);
+      --indigo: #818cf8;
     }
 
     *,
@@ -129,6 +130,76 @@
       background: var(--purple);
       grid-column: 1 / span 3;
       grid-row: 1 / span 2;
+      position: relative;
+    }
+
+    .box-rewards .person-img {
+      position: absolute;
+      right: -10px;
+      bottom: -10px;
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      border: 4px solid var(--glass-border);
+      opacity: 1;
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+      transform: scale(1.2);
+    }
+
+    .box-rewards:hover .person-img {
+      transform: scale(1.4) rotate(10deg);
+      opacity: 1;
+    }
+
+    .box-rewards .gym-todo {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .gym-todo .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .gym-todo .todo-item.checked {
+      opacity: 0.8;
+    }
+
+    .gym-todo .todo-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .gym-todo .todo-item.checked .todo-checkbox {
+      background: #fff;
+      border-color: #fff;
+    }
+
+    .gym-todo .todo-item.checked .todo-checkbox::after {
+      content: '✓';
+      color: var(--purple);
+      font-size: 0.9rem;
+      font-weight: 800;
     }
 
     .box-manage {
@@ -227,8 +298,8 @@
     }
 
     .box-goals .skill-highlight {
-      font-size: 0.9rem;
-      /* Further decreased */
+      font-size: 0.8rem;
+      /* Decreased */
       font-weight: 800;
       color: #2563EB;
       /* Blue text to match reference */
@@ -239,15 +310,65 @@
       /* Full pill shape */
       width: fit-content;
       margin-top: 2px;
+      margin-left: -8px;
+      /* Shift left as requested */
       position: relative;
       z-index: 2;
     }
 
-    .box-goals .skill-item {
-      font-size: 0.8rem;
+    .box-goals .progress-container {
+      margin-top: 6px;
+      width: fit-content;
+      position: relative;
+      z-index: 2;
+    }
+
+    .box-goals .progress-labels {
+      display: flex;
+      justify-content: flex-start;
+      /* Align to left */
+      align-items: baseline;
+      gap: 4px;
+      margin-bottom: 0;
+      font-family: monospace;
+      padding-left: 4px;
+      /* Slight indent to align with pill text visual */
+    }
+
+    .box-goals .progress-current {
+      color: #2563EB;
+      font-size: 1.2rem;
+      font-weight: 800;
+    }
+
+    .box-goals .progress-separator {
+      color: rgba(31, 41, 55, 0.4);
+      font-size: 1rem;
       font-weight: 600;
-      color: rgba(31, 41, 55, 0.7);
-      margin-top: 2px;
+    }
+
+    .box-goals .progress-total {
+      color: rgba(31, 41, 55, 0.6);
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .box-goals .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .box-goals .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563EB, #1D4ED8);
+      width: 5.4%;
+      /* 6/110 classes */
+      border-radius: 10px;
+      box-shadow: 0 0 8px rgba(37, 99, 235, 0.4);
     }
 
 
@@ -284,12 +405,137 @@
     .box-lounges {
       background: var(--green);
       grid-column: 6 / span 1;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 10px;
+    }
+
+    .time-text {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .date-text {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      margin-top: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+
+    .box-college {
+      background: var(--indigo);
+      grid-column: 3 / span 2;
+      grid-row: 3 / span 2;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 20px;
+    }
+
+    .box-college .label {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      z-index: 2;
+    }
+
+    .attendance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      /* 3x2 Grid */
+      gap: 5px;
+      position: relative;
+      z-index: 2;
+      max-width: 210px;
+    }
+
+    .day-item {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 4px 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: #fff;
+      font-weight: 600;
+      backdrop-filter: blur(4px);
+    }
+
+    .day-item.active {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--indigo);
+    }
+
+    /* Adjust image to not overlap table too much */
+    .box-college .person-img {
+      position: absolute;
+      right: -20px;
+      bottom: -20px;
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      border: 4px solid var(--glass-border);
+      opacity: 1;
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+      transform: scale(1.4);
+    }
+
+    .box-college:hover .person-img {
+      transform: scale(1.6) rotate(-5deg);
+      opacity: 1;
+    }
+
+    .attendance-stats {
+      margin-top: 15px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .attendance-percent {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1;
+      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .attendance-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      margin-top: 2px;
+      letter-spacing: 0.5px;
     }
 
 
     .box-strategy {
       background: var(--peach);
-      grid-column: 1 / span 4;
+      grid-column: 1 / span 2;
+      /* Split to 2 columns */
+      grid-row: 3 / span 2;
+    }
+
+    .box-college {
+      background: var(--indigo);
+      grid-column: 3 / span 2;
+      /* New College box takes next 2 cols */
       grid-row: 3 / span 2;
     }
 
@@ -346,7 +592,22 @@
   <main class="canvas" role="main">
     <section class="bento-grid" aria-label="Management dashboard">
       <article class="box box-rewards" tabindex="0">
-        <div class="label">Gym</div>
+        <div class="label" style="color: #fff;">Gym</div>
+        <div class="gym-todo">
+          <div class="todo-item checked">
+            <div class="todo-checkbox"></div>
+            <span class="todo-text">Go For Running</span>
+          </div>
+          <div class="todo-item checked">
+            <div class="todo-checkbox"></div>
+            <span class="todo-text">Do GYM Daily</span>
+          </div>
+          <div class="todo-item">
+            <div class="todo-checkbox"></div>
+            <span class="todo-text">Stay Consistent</span>
+          </div>
+        </div>
+        <img src="gymboy.png" alt="Gym Boy" class="person-img">
       </article>
 
       <article class="box box-manage" tabindex="0">
@@ -362,16 +623,41 @@
         <div class="skills-content">
           <div class="label">Skills</div>
           <div class="skill-highlight">Core Java</div>
+          <div class="progress-container">
+            <div class="progress-labels">
+              <span class="progress-current">06</span>
+              <span class="progress-separator">/</span>
+              <span class="progress-total">110</span>
+            </div>
+          </div>
         </div>
         <img src="skills_hoodie.png" alt="Hoodie Coder" class="person-img">
       </article>
 
       <article class="box box-lounges" tabindex="0">
-        <div class="label">College</div>
+        <div id="clock-time" class="time-text">--:--</div>
+        <div id="clock-date" class="date-text">---, --- --</div>
       </article>
 
       <article class="box box-strategy" tabindex="0">
         <div class="label">Food</div>
+      </article>
+
+      <article class="box box-college" tabindex="0">
+        <div class="label">College</div>
+        <div class="attendance-grid">
+          <div class="day-item">Mon <span style="opacity:0.5">✕</span></div>
+          <div class="day-item">Tue <span style="opacity:0.5">✕</span></div>
+          <div class="day-item">Wed <span style="opacity:0.5">✕</span></div>
+          <div class="day-item">Thu <span style="opacity:0.5">✕</span></div>
+          <div class="day-item">Fri <span style="opacity:0.5">✕</span></div>
+          <div class="day-item">Sat <span style="opacity:0.5">✕</span></div>
+        </div>
+        <div class="attendance-stats">
+          <div class="attendance-percent">0%</div>
+          <div class="attendance-label">Attendance</div>
+        </div>
+        <img src="college_cartoon.png" alt="College Building" class="person-img">
       </article>
 
       <article class="box box-apply" tabindex="0">
@@ -379,6 +665,23 @@
       </article>
     </section>
   </main>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      // Time format: 10:30 AM
+      const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+      // Date format: Mon, Dec 28
+      const dateString = now.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+      document.getElementById('clock-time').textContent = timeString;
+      document.getElementById('clock-date').textContent = dateString;
+    }
+
+    // Update immediately and then every second
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 
 </html>
