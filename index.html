@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Animated Named Bento Grid</title>
@@ -15,13 +16,25 @@
       --card-radius: 22px;
       --shadow-soft: 0 18px 32px rgba(143, 168, 255, 0.25);
 
-      --purple: #60A5FA;   /* Gym */
-      --pink: #23ced9;     /* Money */
-      --yellow: #F59E0B;   /* Skill */
-      --green: #10B981;    /* College */
-      --peach: #dba3e0;    /* Food */
-      --blue: #2563EB;     /* Management */
+      --purple: #60A5FA;
+      /* Gym */
+      --pink: #23ced9;
+      /* Money */
+      --yellow: #F59E0B;
+      /* Skill */
+      --green: #10B981;
+      /* College */
+      --peach: #dba3e0;
+      /* Food */
+      --blue: #2563EB;
+      /* Management */
+      --logout-red: #ff4d4d;
+      --glass-white: rgba(255, 255, 255, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.6);
     }
+
+    /* Professional Font */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap');
 
     * {
       margin: 0;
@@ -38,7 +51,8 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-      padding: 24px 10px 10px;   /* smaller top padding for mobile */
+      padding: 24px 10px 10px;
+      /* smaller top padding for mobile */
       gap: 12px;
     }
 
@@ -89,7 +103,7 @@
       left: -100%;
       width: 100%;
       height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
       transition: left 0.6s;
     }
 
@@ -142,12 +156,29 @@
       box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
     }
 
-    .box-rewards  { background: var(--purple); }
-    .box-manage   { background: var(--pink); }
-    .box-goals    { background: var(--yellow); }
-    .box-lounges  { background: var(--green); }
-    .box-strategy { background: var(--peach); }
-    .box-apply    { background: var(--blue); }
+    .box-rewards {
+      background: var(--purple);
+    }
+
+    .box-manage {
+      background: var(--pink);
+    }
+
+    .box-goals {
+      background: var(--yellow);
+    }
+
+    .box-lounges {
+      background: var(--green);
+    }
+
+    .box-strategy {
+      background: var(--peach);
+    }
+
+    .box-apply {
+      background: var(--blue);
+    }
 
     .box-rewards {
       grid-column: 1 / span 3;
@@ -187,7 +218,8 @@
       }
 
       .top-title {
-        font-size: 1.4rem;      /* smaller so it doesn’t push down too much */
+        font-size: 1.4rem;
+        /* smaller so it doesn’t push down too much */
         letter-spacing: 0.1em;
       }
 
@@ -197,9 +229,11 @@
       }
 
       .bento-grid {
-        grid-template-columns: 1fr;   /* stack boxes */
+        grid-template-columns: 1fr;
+        /* stack boxes */
         grid-auto-rows: 125px;
-        gap: 12px;                    /* tighter gaps */
+        gap: 12px;
+        /* tighter gaps */
       }
 
       .box-rewards,
@@ -213,7 +247,8 @@
       }
 
       .box {
-        padding: 20px 22px;          /* slightly smaller padding */
+        padding: 20px 22px;
+        /* slightly smaller padding */
       }
 
       .label {
@@ -231,11 +266,123 @@
         font-size: 0.78rem;
       }
     }
+
+    /* TOP CENTERED LOGOUT STYLING */
+    .logout-container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+      margin-bottom: 25px;
+      /* Space between logout and bento grid */
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: var(--glass-white);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 12px 24px;
+      border-radius: 50px;
+      border: 1px solid var(--glass-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .user-profile:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .user-profile:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #60A5FA, #2563EB);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    .welcome-text {
+      font-size: 0.95rem;
+      color: #1e293b;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+    }
+
+    .welcome-text span {
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .logout-btn {
+      background: var(--logout-red);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 30px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 8px;
+    }
+
+    .logout-btn:hover {
+      background: #e11d48;
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+    }
+
+    .logout-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .logout-container {
+        margin-top: 30px;
+      }
+
+      .user-profile {
+        padding: 10px 20px;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <!-- Top middle title in Audiowide -->
-  <h1 class="top-title">Management</h1>
+  <div class="logout-container">
+    <div class="user-profile">
+      <div id="user-avatar" class="user-avatar">?</div>
+      <div class="welcome-text">Hi, <span id="welcome-name">Loading...</span></div>
+      <button onclick="logout()" class="logout-btn">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+        </svg>
+        Logout
+      </button>
+    </div>
+  </div>
 
   <div class="canvas">
     <section class="bento-grid" aria-label="Animated bento layout">
@@ -271,5 +418,32 @@
       </div>
     </section>
   </div>
+  </div>
+
+  <script>
+    // Authentication check
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token');
+      const userStr = localStorage.getItem('user');
+
+      if (!token || !userStr) {
+        window.location.href = 'M1.HTML';
+        return;
+      }
+
+      const user = JSON.parse(userStr);
+      document.getElementById('welcome-name').innerText = user.fullName;
+      if (user.fullName) {
+        document.getElementById('user-avatar').innerText = user.fullName.charAt(0).toUpperCase();
+      }
+    });
+
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = 'M1.HTML';
+    }
+  </script>
 </body>
+
 </html>
