@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Management Auth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --primary: rgb(182, 157, 230);
+      --muted: rgba(0, 0, 0, .6);
+    }
+
+    /* RESET */
+    * {
+      margin: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial, sans-serif;
+    }
+
+    /* BODY */
+    body {
+      min-height: 100vh;
+      background: #f3f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* MAIN CARD */
+    .session {
+      display: flex;
+      width: 720px;
+      max-width: 100%;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, .12);
+      overflow: hidden;
+    }
+
+    /* LEFT IMAGE (LAPTOP) */
+    .left {
+      width: 45%;
+      background-image: url("https://images.pexels.com/photos/114979/pexels-photo-114979.jpeg");
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .left svg {
+      width: 44px;
+      margin: 22px;
+    }
+
+    /* FORM CONTAINER */
+    .form-container {
+      width: 55%;
+      padding: 40px;
+    }
+
+    /* HEADINGS */
+    h4 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    h4 span {
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    /* INPUTS */
+    .field {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 14px 0;
+      border: none;
+      border-bottom: 1px solid rgba(0, 0, 0, .2);
+      font-size: 16px;
+      background: transparent;
+    }
+
+    .field input:focus {
+      outline: none;
+      border-bottom-color: var(--primary);
+    }
+
+    .field label {
+      position: absolute;
+      top: 14px;
+      left: 0;
+      font-size: 13px;
+      color: var(--muted);
+      pointer-events: none;
+      transition: .25s ease;
+    }
+
+    .field input:focus+label,
+    .field input:valid+label,
+    .field input:not(:placeholder-shown)+label {
+      top: -8px;
+      font-size: 11px;
+      color: var(--primary);
+    }
+
+    /* BUTTON */
+    button {
+      display: block;
+      margin-left: auto;
+      padding: 14px 38px;
+      border-radius: 26px;
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+      transition: .3s ease;
+    }
+
+    button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(182, 157, 230, .45);
+    }
+
+    button:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    /* SWITCH TEXT */
+    .switch {
+      margin-top: 30px;
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .switch span {
+      color: var(--primary);
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* FORM VISIBILITY */
+    form {
+      display: none;
+    }
+
+    form.active {
+      display: block;
+    }
+
+    /* ========================= */
+    /* 📱 MOBILE VIEW */
+    /* ========================= */
+    @media (max-width: 768px) {
+      .session {
+        flex-direction: column;
+        width: 100%;
+        max-width: 420px;
+      }
+
+      .left {
+        display: none;
+      }
+
+      .form-container {
+        width: 100%;
+        padding: 35px 28px;
+      }
+
+      h4 {
+        font-size: 22px;
+      }
+
+      button {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="session">
+
+    <!-- LEFT IMAGE -->
+    <div class="left">
+      <svg viewBox="0 0 300 302.5" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#fff" d="m126 302.2c-2.3 0.7-5.7 0.2-7.7-1.2l-105-71.6z" />
+      </svg>
+    </div>
+
+    <!-- FORMS -->
+    <div class="form-container">
+
+      <!-- LOGIN -->
+      <form id="loginForm" class="active" novalidate>
+        <h4>Welcome <span>Back</span></h4>
+        <p>Log in to your Management Account</p>
+
+        <div class="field">
+          <input type="email" id="loginEmail" name="email" autocomplete="username" placeholder=" " required>
+          <label for="loginEmail">Email</label>
+        </div>
+
+        <div class="field">
+          <input type="password" id="loginPassword" name="password" autocomplete="current-password" placeholder=" "
+            required minlength="6">
+          <label for="loginPassword">Password</label>
+        </div>
+
+        <button type="submit">Log in</button>
+
+        <div class="switch">
+          Don't have an account?
+          <span onclick="showSignup()">Sign up</span>
+        </div>
+      </form>
+
+      <!-- SIGN UP -->
+      <form id="signupForm" novalidate>
+        <h4>Create <span>Account</span></h4>
+        <p>Join Management in seconds</p>
+
+        <div class="field">
+          <input type="text" id="signupName" name="fullName" autocomplete="name" placeholder=" " required minlength="2">
+          <label for="signupName">Full Name</label>
+        </div>
+
+        <div class="field">
+          <input type="email" id="signupEmail" name="email" autocomplete="email" placeholder=" " required>
+          <label for="signupEmail">Email</label>
+        </div>
+
+        <div class="field">
+          <input type="password" id="signupPassword" name="password" autocomplete="new-password" placeholder=" "
+            required minlength="6">
+          <label for="signupPassword">Password</label>
+        </div>
+
+        <button type="submit">Sign up</button>
+
+        <div class="switch">
+          Already have an account?
+          <span onclick="showLogin()">Log in</span>
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script>
+    function showSignup() {
+      document.getElementById("loginForm").classList.remove("active");
+      document.getElementById("signupForm").classList.add("active");
+    }
+
+    function showLogin() {
+      document.getElementById("signupForm").classList.remove("active");
+      document.getElementById("loginForm").classList.add("active");
+    }
+
+    // Set API base URL depending on how the file is opened
+    const API_BASE = window.location.protocol === 'file:' ? 'http://localhost:3000' : '';
+
+    // Form submission handlers
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      const loginButton = this.querySelector('button');
+
+      try {
+        loginButton.disabled = true;
+        loginButton.innerText = 'Logging in...';
+
+        const response = await fetch(`${API_BASE}/api/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem('token', result.token);
+          localStorage.setItem('user', JSON.stringify(result.user));
+          // Use relative path for redirection to work in both cases
+          window.location.href = 'jc.html';
+        } else {
+          alert(result.message || 'Login failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please check if the server is running at http://localhost:3000');
+      } finally {
+        loginButton.disabled = false;
+        loginButton.innerText = 'Log in';
+      }
+    });
+
+    document.getElementById('signupForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      const signupButton = this.querySelector('button');
+
+      try {
+        signupButton.disabled = true;
+        signupButton.innerText = 'Creating account...';
+
+        const response = await fetch(`${API_BASE}/api/signup`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert('Signup successful! Please log in.');
+          showLogin();
+        } else {
+          alert(result.message || 'Signup failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please check if the server is running at http://localhost:3000');
+      } finally {
+        signupButton.disabled = false;
+        signupButton.innerText = 'Sign up';
+      }
+    });
+  </script>
+
+</body>
+
+</html>
