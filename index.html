@@ -183,23 +183,21 @@
       right: -15px;
       bottom: -15px;
       width: 140px;
-      /* Increased size for zoom effect */
       height: 140px;
       object-fit: cover;
       object-position: center;
       border-radius: 50%;
-      /* Circular shape */
       border: 4px solid var(--glass-border);
-      opacity: 0.8;
+      opacity: 1;
+      /* Removed shade */
       pointer-events: none;
       transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       z-index: 1;
-      transform: scale(1.1);
-      /* Zoomed in */
+      transform: scale(1.25);
     }
 
     .box-manage:hover .person-img {
-      transform: scale(1.3) rotate(5deg);
+      transform: scale(1.5) rotate(5deg);
       opacity: 1;
     }
 
@@ -207,6 +205,80 @@
     .box-goals {
       background: var(--yellow);
       grid-column: 4 / span 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 20px 24px;
+    }
+
+    .box-goals .skills-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .box-goals .label {
+      font-size: 0.9rem;
+      color: rgba(31, 41, 55, 0.6);
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+
+    .box-goals .skill-highlight {
+      font-size: 0.9rem;
+      /* Further decreased */
+      font-weight: 800;
+      color: #2563EB;
+      /* Blue text to match reference */
+      background: rgba(255, 255, 255, 0.5);
+      /* Soft white background */
+      padding: 6px 16px;
+      border-radius: 30px;
+      /* Full pill shape */
+      width: fit-content;
+      margin-top: 2px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .box-goals .skill-item {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(31, 41, 55, 0.7);
+      margin-top: 2px;
+    }
+
+
+    .box-goals .person-img {
+      position: absolute;
+      right: -10px;
+      bottom: -10px;
+      width: 130px;
+      height: 130px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      border: 4px solid var(--glass-border);
+      opacity: 1;
+      /* Removed shade */
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+      transform: scale(1.4);
+      /* Increased base zoom */
+    }
+
+    .box-goals:hover .person-img {
+      transform: scale(1.6) rotate(-5deg);
+      /* Increased hover zoom */
+      opacity: 1;
+    }
+
+    .box-goals .label {
+      position: relative;
+      z-index: 2;
     }
 
     .box-lounges {
@@ -287,7 +359,11 @@
       </article>
 
       <article class="box box-goals" tabindex="0">
-        <div class="label">Skill</div>
+        <div class="skills-content">
+          <div class="label">Skills</div>
+          <div class="skill-highlight">Core Java</div>
+        </div>
+        <img src="skills_hoodie.png" alt="Hoodie Coder" class="person-img">
       </article>
 
       <article class="box box-lounges" tabindex="0">
