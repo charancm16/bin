@@ -614,7 +614,283 @@
       background: var(--blue);
       grid-column: 5 / span 2;
       grid-row: 3 / span 2;
+      position: relative;
     }
+
+    .box-apply .person-img {
+      position: absolute;
+      right: -10px;
+      bottom: -10px;
+      width: 140px;
+      height: 140px;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 50%;
+      border: 4px solid var(--glass-border);
+      opacity: 1;
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      z-index: 1;
+      transform: scale(1.2);
+    }
+
+    .box-apply:hover .person-img {
+      transform: scale(1.4) rotate(15deg);
+      opacity: 1;
+    }
+
+
+
+    /* Flash effect for boxes when updated */
+    @keyframes boxFlash {
+      0% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+
+      50% {
+        transform: scale(1.02);
+        filter: brightness(1.3) contrast(1.1);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+      }
+
+      100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+    }
+
+    .box-updated {
+      animation: boxFlash 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Management Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .edit-modal {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      width: 95%;
+      max-width: 550px;
+      padding: 0;
+      border-radius: 32px;
+      box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      max-height: 90vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .modal-overlay.active .edit-modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      padding: 24px 30px;
+      background: linear-gradient(to right, #ffffff, #f8fafc);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+      margin-bottom: 0;
+    }
+
+    .close-modal {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f1f5f9;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #64748b;
+      transition: all 0.2s;
+    }
+
+    .close-modal:hover {
+      background: #fee2e2;
+      color: #ef4444;
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 24px 30px;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    /* Custom Scrollbar */
+    .modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .modal-body::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .modal-body::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    .form-section {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.03);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      transition: transform 0.3s ease;
+    }
+
+    .form-section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: #6366f1;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 14px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      font-family: inherit;
+      font-size: 1rem;
+      color: #1e293b;
+      transition: all 0.2s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #6366f1;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .checkbox-item:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+
+    .checkbox-item input {
+      accent-color: #6366f1;
+      width: 16px;
+      height: 16px;
+    }
+
+    .modal-footer {
+      padding: 20px 30px;
+      background: #ffffff;
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .save-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: #fff;
+      border: none;
+      padding: 16px;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.4);
+    }
+
+    .save-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.5);
+    }
+
+    .save-btn:active {
+      transform: scale(0.98);
+    }
+
 
     /* Mobile Responsive */
     @media (max-width: 768px) {
@@ -688,7 +964,7 @@
   <!-- User Profile -->
   <div class="user-profile" role="banner">
     <div class="user-avatar" aria-label="User avatar">C</div>
-    <div>Hi, <strong>Charan</strong></div>
+    <div>Welcome Back</div>
   </div>
 
   <!-- Main Content -->
@@ -697,15 +973,15 @@
       <article class="box box-rewards" tabindex="0">
         <div class="label">Gym</div>
         <div class="gym-todo">
-          <div class="todo-item checked">
+          <div class="todo-item checked" id="gym-item-1">
             <div class="todo-checkbox"></div>
             <span class="todo-text">Go For Running</span>
           </div>
-          <div class="todo-item checked">
+          <div class="todo-item checked" id="gym-item-2">
             <div class="todo-checkbox"></div>
             <span class="todo-text">Do GYM Daily</span>
           </div>
-          <div class="todo-item">
+          <div class="todo-item" id="gym-item-3">
             <div class="todo-checkbox"></div>
             <span class="todo-text">Stay Consistent</span>
           </div>
@@ -716,8 +992,8 @@
       <article class="box box-manage" tabindex="0">
         <div class="money-content">
           <div class="label">Savings</div>
-          <div class="amount">₹7,500</div>
-          <div class="source">Post Office Bank</div>
+          <div class="amount" id="savings-val">₹7,500</div>
+          <div class="source" id="savings-bank">Post Office Bank</div>
         </div>
         <img src="money_collector.png" alt="Money Collector" class="person-img">
       </article>
@@ -728,9 +1004,12 @@
           <div class="skill-highlight">Core Java</div>
           <div class="progress-container">
             <div class="progress-labels">
-              <span class="progress-current">06</span>
+              <span class="progress-current" id="skill-val">06</span>
               <span class="progress-separator">/</span>
               <span class="progress-total">110</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: 5.4%"></div>
             </div>
           </div>
         </div>
@@ -745,7 +1024,7 @@
       <article class="box box-strategy" tabindex="0">
         <div class="label">Food</div>
         <div class="food-stats">
-          <div class="calories-count">2,000</div>
+          <div class="calories-count" id="food-val">2,000</div>
           <div class="calories-label">Kcal / Day</div>
           <div class="diet-status">Healthy Diet</div>
 
@@ -756,25 +1035,100 @@
       <article class="box box-college" tabindex="0">
         <div class="label">College</div>
         <div class="attendance-grid">
-          <div class="day-item">Mon <span style="opacity:0.5">✕</span></div>
-          <div class="day-item">Tue <span style="opacity:0.5">✕</span></div>
-          <div class="day-item">Wed <span style="opacity:0.5">✕</span></div>
-          <div class="day-item">Thu <span style="opacity:0.5">✕</span></div>
-          <div class="day-item">Fri <span style="opacity:0.5">✕</span></div>
-          <div class="day-item">Sat <span style="opacity:0.5">✕</span></div>
+          <div class="day-item" id="day-mon">Mon <span style="opacity:0.5">✕</span></div>
+          <div class="day-item" id="day-tue">Tue <span style="opacity:0.5">✕</span></div>
+          <div class="day-item" id="day-wed">Wed <span style="opacity:0.5">✕</span></div>
+          <div class="day-item" id="day-thu">Thu <span style="opacity:0.5">✕</span></div>
+          <div class="day-item" id="day-fri">Fri <span style="opacity:0.5">✕</span></div>
+          <div class="day-item" id="day-sat">Sat <span style="opacity:0.5">✕</span></div>
         </div>
         <div class="attendance-stats">
-          <div class="attendance-percent">0%</div>
+          <div class="attendance-percent" id="college-val">0%</div>
           <div class="attendance-label">Attendance</div>
         </div>
         <img src="college_cartoon.png" alt="College Building" class="person-img">
       </article>
 
-      <article class="box box-apply" tabindex="0">
+      <article class="box box-apply" tabindex="0" onclick="openEditModal()">
         <div class="label">Management</div>
+        <img src="write.jpg" alt="Management Writing" class="person-img">
       </article>
     </section>
   </main>
+
+  <!-- Edit Management Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="edit-modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Management Control Cell</h2>
+        <span class="close-modal" onclick="closeEditModal()">&times;</span>
+      </div>
+
+      <div class="modal-body">
+        <!-- Savings Section -->
+        <div class="form-section">
+          <div class="section-label">💰 Savings Management</div>
+          <div class="input-group">
+            <label>Savings Amount (₹)</label>
+            <input type="text" id="edit-savings-amount" placeholder="e.g. ₹7,500">
+          </div>
+          <div class="input-group">
+            <label>Bank Source</label>
+            <input type="text" id="edit-savings-bank" placeholder="e.g. Post Office Bank">
+          </div>
+        </div>
+
+        <!-- Gym Section -->
+        <div class="form-section">
+          <div class="section-label">🏋️ Gym Tracker</div>
+          <div class="checkbox-grid">
+            <label class="checkbox-item"><input type="checkbox" id="edit-gym-1"> Running</label>
+            <label class="checkbox-item"><input type="checkbox" id="edit-gym-2"> Daily Gym</label>
+            <label class="checkbox-item"><input type="checkbox" id="edit-gym-3"> Consistent</label>
+          </div>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="form-section">
+          <div class="section-label">💻 Skill Progress</div>
+          <div class="input-group">
+            <label>Core Java Classes Done (Out of 110)</label>
+            <input type="number" id="edit-skill-val" min="0" max="110">
+          </div>
+        </div>
+
+        <!-- Food Section -->
+        <div class="form-section">
+          <div class="section-label">🥗 Diet Control</div>
+          <div class="input-group">
+            <label>Calorie Goal (Kcal)</label>
+            <input type="text" id="edit-food-val">
+          </div>
+        </div>
+
+        <!-- College Section -->
+        <div class="form-section">
+          <div class="section-label">🎓 College Attendance</div>
+          <div class="checkbox-grid">
+            <label class="checkbox-item"><input type="checkbox" id="edit-day-mon"> Mon</label>
+            <label class="checkbox-item"><input type="checkbox" id="edit-day-tue"> Tue</label>
+            <label class="checkbox-item"><input type="checkbox" id="edit-day-wed"> Wed</label>
+            <label class="checkbox-item"><input type="checkbox" id="edit-day-thu"> Thu</label>
+            <label class="checkbox-item"><input type="checkbox" id="edit-day-fri"> Fri</label>
+            <label class="checkbox-item"><input type="checkbox" id="edit-day-sat"> Sat</label>
+          </div>
+          <div class="input-group" style="margin-top: 15px;">
+            <label>Overall Attendance (%)</label>
+            <input type="text" id="edit-college-val" placeholder="e.g. 85%">
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="save-btn" onclick="saveAllChanges()">Deploy Updates</button>
+      </div>
+    </div>
+  </div>
 
   <script>
     function updateClock() {
@@ -791,6 +1145,133 @@
     // Update immediately and then every second
     updateClock();
     setInterval(updateClock, 1000);
+
+    // --- Management Console Logic ---
+
+    const modal = document.getElementById('modal-overlay');
+
+    // Persistence: Load on startup
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAllData();
+      updateClock();
+      setInterval(updateClock, 1000);
+    });
+
+    function openEditModal() {
+      // Sync current UI values to Inputs
+      document.getElementById('edit-savings-amount').value = document.getElementById('savings-val').textContent;
+      document.getElementById('edit-savings-bank').value = document.getElementById('savings-bank').textContent;
+      document.getElementById('edit-skill-val').value = document.getElementById('skill-val').textContent;
+      document.getElementById('edit-food-val').value = document.getElementById('food-val').textContent;
+      document.getElementById('edit-college-val').value = document.getElementById('college-val').textContent;
+
+      // Sync Gym Checkboxes
+      document.getElementById('edit-gym-1').checked = document.getElementById('gym-item-1').classList.contains('checked');
+      document.getElementById('edit-gym-2').checked = document.getElementById('gym-item-2').classList.contains('checked');
+      document.getElementById('edit-gym-3').checked = document.getElementById('gym-item-3').classList.contains('checked');
+
+      // Sync Attendance Checkboxes
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+      days.forEach(day => {
+        const dayEl = document.getElementById(`day-${day}`);
+        document.getElementById(`edit-day-${day}`).checked = dayEl.classList.contains('active');
+      });
+
+      modal.classList.add('active');
+    }
+
+    function closeEditModal() {
+      modal.classList.remove('active');
+    }
+
+    function saveAllChanges() {
+      const data = {
+        savings: document.getElementById('edit-savings-amount').value,
+        bank: document.getElementById('edit-savings-bank').value,
+        skill: document.getElementById('edit-skill-val').value,
+        food: document.getElementById('edit-food-val').value,
+        gym: [
+          document.getElementById('edit-gym-1').checked,
+          document.getElementById('edit-gym-2').checked,
+          document.getElementById('edit-gym-3').checked
+        ],
+        attendance: {
+          mon: document.getElementById('edit-day-mon').checked,
+          tue: document.getElementById('edit-day-tue').checked,
+          wed: document.getElementById('edit-day-wed').checked,
+          thu: document.getElementById('edit-day-thu').checked,
+          fri: document.getElementById('edit-day-fri').checked,
+          sat: document.getElementById('edit-day-sat').checked
+        },
+        collegePercent: document.getElementById('edit-college-val').value
+      };
+
+      applyDataToUI(data);
+      localStorage.setItem('manage_dashboard_data', JSON.stringify(data));
+      closeEditModal();
+    }
+
+    function applyDataToUI(data) {
+      if (!data) return;
+
+      // 1. Savings
+      document.getElementById('savings-val').textContent = data.savings;
+      document.getElementById('savings-bank').textContent = data.bank;
+
+      // 2. Skills
+      const skillVal = data.skill;
+      document.getElementById('skill-val').textContent = skillVal.toString().padStart(2, '0');
+      const skillPercent = (skillVal / 110) * 100;
+      document.querySelector('.progress-fill').style.width = skillPercent + '%';
+
+      // 3. Food
+      document.getElementById('food-val').textContent = data.food;
+
+      // 4. Gym
+      data.gym.forEach((checked, index) => {
+        const item = document.getElementById(`gym-item-${index + 1}`);
+        if (checked) item.classList.add('checked');
+        else item.classList.remove('checked');
+      });
+
+      // 5. College
+      const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+      days.forEach(day => {
+        const isChecked = data.attendance[day];
+        const dayEl = document.getElementById(`day-${day}`);
+        const dayName = day.charAt(0).toUpperCase() + day.slice(1);
+
+        if (isChecked) {
+          dayEl.classList.add('active');
+          dayEl.innerHTML = `${dayName} <span>✓</span>`;
+        } else {
+          dayEl.classList.remove('active');
+          dayEl.innerHTML = `${dayName} <span style="opacity:0.5">✕</span>`;
+        }
+      });
+
+      // Update College % manually from data
+      document.getElementById('college-val').textContent = data.collegePercent || '0%';
+
+      // Global Flash Feedback
+      document.querySelectorAll('.box').forEach(box => {
+        box.classList.remove('box-updated');
+        void box.offsetWidth; // Trigger reflow
+        box.classList.add('box-updated');
+      });
+    }
+
+    function loadAllData() {
+      const saved = localStorage.getItem('manage_dashboard_data');
+      if (saved) {
+        applyDataToUI(JSON.parse(saved));
+      }
+    }
+
+    // Close on click outside
+    window.onclick = function (event) {
+      if (event.target == modal) closeEditModal();
+    }
   </script>
 </body>
 
