@@ -204,6 +204,34 @@
       font-weight: 800;
     }
 
+    .progress-btn {
+      margin-top: 15px;
+      background: #fff;
+      color: var(--purple);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      z-index: 3;
+      position: relative;
+      width: fit-content;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-btn:hover {
+      background: var(--purple);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      border: 1px solid #fff;
+    }
+
     .box-manage {
       background: var(--pink);
       grid-column: 4 / span 3;
@@ -986,6 +1014,13 @@
             <span class="todo-text">Stay Consistent</span>
           </div>
         </div>
+        <button class="progress-btn" onclick="window.location.href='GymProgress.html'">
+          <span>Progress</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
         <img src="gymboy.png" alt="Gym Boy" class="person-img">
       </article>
 
@@ -1063,7 +1098,6 @@
         <h2 class="modal-title">Management Control Cell</h2>
         <span class="close-modal" onclick="closeEditModal()">&times;</span>
       </div>
-
       <div class="modal-body">
         <!-- Savings Section -->
         <div class="form-section">
