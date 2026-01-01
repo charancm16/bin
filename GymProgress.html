@@ -11,15 +11,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary: #6366f1;
-            --primary-light: #818cf8;
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
             --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-sub: #64748b;
-            --border: #e2e8f0;
-            --success: #10b981;
-            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --border: rgba(226, 232, 240, 0.8);
+            --success: #059669;
+            --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
         * {
@@ -30,7 +30,11 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background: #8FA8FF;
+            background: radial-gradient(at 0% 0%, #8FA8FF 0px, transparent 50%),
+                radial-gradient(at 100% 0%, #a5b4fc 0px, transparent 50%),
+                radial-gradient(at 100% 100%, #818cf8 0px, transparent 50%),
+                radial-gradient(at 0% 100%, #6366f1 0px, transparent 50%),
+                #8FA8FF;
             color: var(--text-main);
             padding: 40px 20px;
             display: flex;
@@ -41,20 +45,23 @@
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             max-width: 800px;
         }
 
         .header h1 {
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             font-weight: 800;
             color: #ffffff;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            letter-spacing: -1px;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .header p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1.2rem;
+            font-weight: 400;
         }
 
         /* Dashboard/Charts Section */
@@ -63,16 +70,18 @@
             grid-template-columns: 1fr 1.5fr 1fr;
             gap: 24px;
             width: 100%;
-            max-width: 1300px;
+            max-width: 1350px;
             margin-bottom: 40px;
         }
 
         .dash-card {
             background: var(--card-bg);
-            padding: 24px;
-            border-radius: 24px;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 28px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: var(--shadow-premium);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -80,9 +89,13 @@
 
         .dash-card h3 {
             align-self: flex-start;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             color: var(--text-main);
             font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
         }
 
         .chart-container {
@@ -94,16 +107,16 @@
         /* Table Section */
         .tracker-container {
             background: var(--card-bg);
-            border-radius: 24px;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 32px;
+            box-shadow: var(--shadow-premium);
+            border: 1px solid rgba(255, 255, 255, 0.5);
             max-width: 100%;
             width: 100%;
-            max-width: 1300px;
+            max-width: 1350px;
             overflow: auto;
-            /* Allow both horizontal and vertical scroll if needed */
-            max-height: 70vh;
-            /* Keep the header visible even with many goals */
+            max-height: 75vh;
             position: relative;
         }
 
@@ -112,15 +125,16 @@
             border-spacing: 0;
             width: 100%;
             table-layout: fixed;
-            min-width: 1500px;
+            min-width: 1600px;
         }
 
         th,
         td {
             text-align: center;
-            border: 0.5px solid var(--border);
-            padding: 10px 0;
-            height: 45px;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            padding: 12px 0;
+            height: 55px;
             box-sizing: border-box;
         }
 
@@ -128,98 +142,113 @@
         #week-row th {
             position: sticky;
             top: 0;
-            z-index: 30;
+            z-index: 35;
+            background: #f8fafc;
+            height: 60px;
         }
 
         #day-row th {
             position: sticky;
-            top: 45px;
-            z-index: 30;
+            top: 60px;
+            z-index: 35;
+            background: #ffffff;
+            height: 45px;
         }
 
         #date-row th {
             position: sticky;
-            top: 90px;
-            z-index: 30;
+            top: 105px;
+            z-index: 35;
+            background: #ffffff;
+            height: 45px;
         }
 
         .goals-col {
             position: sticky;
             left: 0;
-            background: #f8fafc;
+            background: #fdfdfd !important;
             z-index: 10;
-            width: 140px;
-            /* Increased to fit text names */
-            min-width: 140px;
+            width: 160px;
+            min-width: 160px;
             text-align: left;
-            /* Changed to left for text readability */
-            padding-left: 15px !important;
+            padding-left: 24px !important;
             font-weight: 700;
             color: var(--text-main);
-            border-right: 2px solid var(--border);
+            border-right: 2px solid #eef2ff !important;
         }
 
         /* Top-Left Corner (Intersections) */
         .goals-label {
-            z-index: 40 !important;
-            /* Higher than headers and goals-col */
-            background: #e2e8f0 !important;
-            font-size: 0.8rem;
+            z-index: 50 !important;
+            background: #f1f5f9 !important;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             font-weight: 800;
+            color: var(--primary);
         }
 
         .week-header {
-            background: #f1f5f9;
+            background: #f8fafc !important;
             font-weight: 800;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-main);
+            letter-spacing: 2px;
+            color: var(--primary);
         }
 
         .day-name {
-            background: #f8fafc;
             font-size: 0.75rem;
             font-weight: 700;
             color: var(--text-sub);
+            text-transform: uppercase;
         }
 
         .date-num {
-            background: #f8fafc;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
             color: #94a3b8;
         }
 
         /* Week Highlighting & Boundaries */
         .week-boundary {
-            border-right: 3px solid #cbd5e1 !important;
+            border-right: 3px solid #d1d5db !important;
         }
 
         .alt-week {
-            background-color: #f1f5f9;
+            background-color: #f1f5f9 !important;
         }
 
         .alt-week-td {
-            background-color: #f9fafb;
+            background-color: rgba(248, 250, 252, 0.4);
+        }
+
+        .today-highlight {
+            background-color: rgba(79, 70, 229, 0.15) !important;
+        }
+
+        .calendar-date.today {
+            border: 2.5px solid var(--primary) !important;
+            color: var(--primary) !important;
+            font-weight: 800;
+            background: rgba(79, 70, 229, 0.05);
         }
 
         /* Mini Calendar Styling */
         .mini-calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 8px;
+            gap: 10px;
             width: 100%;
-            padding: 10px;
+            padding: 5px;
         }
 
         .calendar-day-label {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             font-weight: 800;
             color: var(--text-sub);
             text-align: center;
-            text-transform: uppercase;
+            opacity: 0.6;
         }
 
         .calendar-date {
@@ -227,70 +256,71 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.85rem;
-            font-weight: 600;
-            border-radius: 10px;
-            background: #f8fafc;
+            font-size: 0.9rem;
+            font-weight: 700;
+            border-radius: 12px;
+            background: rgba(241, 245, 249, 0.8);
             border: 1px solid var(--border);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
         }
 
         .calendar-date.completed {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            background: #FBBF24 !important;
+            /* Premium Yellow */
+            color: #1e293b !important;
+            /* Dark Slate for contrast */
+            border-color: #F59E0B !important;
+            transform: scale(1.08);
+            box-shadow: 0 10px 20px rgba(251, 191, 36, 0.3);
         }
 
         .calendar-date.completed::after {
             content: '✓';
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: #22c55e;
+            top: -6px;
+            right: -6px;
+            background: #10b981;
             color: white;
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             border-radius: 50%;
-            font-size: 10px;
+            font-size: 11px;
             display: flex;
             align-items: center;
             justify-content: center;
             border: 2px solid white;
-        }
-
-        .calendar-date.current {
-            border-color: var(--primary);
-            color: var(--primary);
-            border-width: 2px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         /* Checkbox Styling */
         .checkbox-cell {
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
 
         .checkbox-cell:hover {
-            background: #f8fafc;
+            background: rgba(79, 70, 229, 0.03);
         }
 
         .custom-cb {
             appearance: none;
-            width: 22px;
-            height: 22px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
+            width: 26px;
+            height: 26px;
+            border: 2.5px solid #cbd5e1;
+            border-radius: 8px;
             cursor: pointer;
             display: block;
             margin: auto;
             position: relative;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
         }
 
         .custom-cb:checked {
             background-color: var(--primary);
             border-color: var(--primary);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
         }
 
         .custom-cb:checked::after {
@@ -298,118 +328,107 @@
             color: white;
             position: absolute;
             left: 50%;
-            top: 50%;
+            top: 48%;
             transform: translate(-50%, -50%);
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 800;
+        }
+
+        .custom-cb:hover {
+            border-color: var(--primary-light);
+            background: #f5f7ff;
         }
 
         /* Controls */
         .controls {
-            margin-top: 30px;
+            margin-top: 40px;
             display: flex;
-            gap: 15px;
+            gap: 20px;
             justify-content: center;
             width: 100%;
         }
 
         .btn {
-            padding: 14px 28px;
-            border-radius: 16px;
+            padding: 16px 32px;
+            border-radius: 20px;
             border: none;
             font-family: inherit;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .btn-primary {
             background: var(--primary);
             color: white;
-            box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 12px 24px -6px rgba(79, 70, 229, 0.4);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.5);
+            background: #4338ca;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 30px -8px rgba(79, 70, 229, 0.5);
         }
 
         .btn-secondary {
             background: #ffffff;
             color: var(--text-main);
             border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .btn-secondary:hover {
             background: #f8fafc;
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
         }
 
-        @media (max-width: 1024px) {
+        /* Responsive */
+        @media (max-width: 1200px) {
             .dashboard-section {
                 grid-template-columns: 1fr;
-            }
-
-            .header h1 {
-                font-size: 2.2rem;
+                max-width: 800px;
             }
         }
 
         @media (max-width: 640px) {
             body {
-                padding: 20px 10px;
+                padding: 30px 15px;
             }
 
             .header h1 {
-                font-size: 1.8rem;
+                font-size: 2.2rem;
             }
 
             .header p {
-                font-size: 0.9rem;
-            }
-
-            .dashboard-section {
-                gap: 16px;
-                margin-bottom: 24px;
+                font-size: 1rem;
             }
 
             .dash-card {
-                padding: 16px;
-                border-radius: 20px;
-            }
-
-            .chart-container {
-                height: 200px;
+                padding: 20px;
             }
 
             .tracker-container {
-                padding: 12px;
-                border-radius: 20px;
-                margin-bottom: 20px;
+                border-radius: 24px;
             }
 
             .custom-cb {
-                width: 24px;
-                height: 24px;
-            }
-
-            th,
-            td {
-                height: 48px;
+                width: 28px;
+                height: 28px;
             }
 
             .goals-col {
-                width: 70px !important;
-                font-size: 0.8rem;
+                width: 120px !important;
+                padding-left: 15px !important;
             }
 
             .controls {
                 flex-direction: column;
-                padding: 0 10px;
-                gap: 12px;
+                gap: 15px;
             }
 
             .btn {
@@ -418,18 +437,68 @@
             }
         }
 
-        /* Smooth scrollbar for better mobile UX */
+        /* Smooth scrollbar styling */
         .tracker-container::-webkit-scrollbar {
-            height: 6px;
+            width: 8px;
+            height: 8px;
         }
 
         .tracker-container::-webkit-scrollbar-track {
-            background: #f1f5f9;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 10px;
         }
 
         .tracker-container::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
+            background: rgba(79, 70, 229, 0.2);
             border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        .tracker-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(79, 70, 229, 0.4);
+        }
+
+        /* Month Selector Styling */
+        .month-selector-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .month-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0 10px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+
+        .month-btn:hover {
+            transform: scale(1.2);
+            color: #f1f5f9;
+        }
+
+        #current-month-display {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            min-width: 220px;
+            text-align: center;
         }
     </style>
 </head>
@@ -439,6 +508,12 @@
     <div class="header">
         <h1>Manage-Gym</h1>
         <p>A fresh start to your fitness journey. Consistency is key.</p>
+    </div>
+
+    <div class="month-selector-container">
+        <button class="month-btn" onclick="changeMonth(-1)">‹</button>
+        <div id="current-month-display">January 2026</div>
+        <button class="month-btn" onclick="changeMonth(1)">›</button>
     </div>
 
     <div class="dashboard-section">
@@ -455,7 +530,7 @@
             </div>
         </div>
         <div class="dash-card">
-            <h3>January 2026</h3>
+            <h3 id="mini-cal-title">January 2026</h3>
             <div class="mini-calendar-grid" id="mini-calendar">
                 <!-- Days will be generated by JS -->
             </div>
@@ -478,17 +553,22 @@
     </div>
 
     <div class="controls">
-        <button class="btn btn-secondary" onclick="resetAll()">Reset All</button>
+        <button class="btn btn-secondary" onclick="resetAll()">Reset Month</button>
         <button class="btn btn-primary" onclick="saveData()">Save Progress</button>
         <button class="btn btn-secondary" onclick="window.location.href='Home.html'">Dashboard</button>
     </div>
 
     <script>
-        const monthDays = 31;
-        const startDayOffset = 4; // Jan 1, 2026 is Thursday
-        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        let currentYear = 2026;
+        let currentMonth = 0; // 0-indexed (Jan = 0)
 
-        // Updated Goal Names as requested
+        const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const fullMonthNames = [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+
+        // Goals
         const goalNames = ["Running", "Warmup", "Gym"];
         const goalValues = [30, 30, 30];
 
@@ -496,10 +576,47 @@
         let progressLineChart;
 
         function init() {
+            refreshView();
+        }
+
+        function refreshView() {
+            // Update Headers
+            document.getElementById('current-month-display').textContent = `${fullMonthNames[currentMonth]} ${currentYear}`;
+            document.getElementById('mini-cal-title').textContent = `${fullMonthNames[currentMonth]} ${currentYear}`;
+
+            // Clear existing grid
+            document.getElementById('day-row').innerHTML = '';
+            document.getElementById('date-row').innerHTML = '';
+            const weekRow = document.getElementById('week-row');
+            weekRow.innerHTML = '<th rowspan="3" class="goals-col goals-label">GOALS</th>';
+            document.getElementById('grid-body').innerHTML = '';
+            document.getElementById('mini-calendar').innerHTML = '';
+
+            // Render components
             renderHeader();
             renderRows();
             renderMiniCalendar();
             loadAndRefresh();
+        }
+
+        function changeMonth(delta) {
+            currentMonth += delta;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            } else if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            refreshView();
+        }
+
+        function getDaysInMonth(month, year) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+
+        function getStartDayOffset(month, year) {
+            return new Date(year, month, 1).getDay();
         }
 
         function renderHeader() {
@@ -507,13 +624,16 @@
             const dayRow = document.getElementById('day-row');
             const dateRow = document.getElementById('date-row');
 
+            const days = getDaysInMonth(currentMonth, currentYear);
+            const offset = getStartDayOffset(currentMonth, currentYear);
+
             let weekCount = 1;
             let currentWeekColspan = 0;
 
-            for (let i = 1; i <= monthDays; i++) {
-                const dayIndex = (startDayOffset + i - 1) % 7;
+            for (let i = 1; i <= days; i++) {
+                const dayIndex = (offset + i - 1) % 7;
                 const isSunday = (dayIndex === 0);
-                const weekSuffix = isSunday || i === monthDays ? ' week-boundary' : '';
+                const weekSuffix = isSunday || i === days ? ' week-boundary' : '';
 
                 // Add Day Header
                 const thDay = document.createElement('th');
@@ -532,7 +652,7 @@
                 currentWeekColspan++;
 
                 // Break on Sunday or end of month
-                if (isSunday || i === monthDays) {
+                if (isSunday || i === days) {
                     const thWeek = document.createElement('th');
                     thWeek.className = 'week-header week-boundary';
                     if (weekCount % 2 === 0) thWeek.classList.add('alt-week');
@@ -548,6 +668,9 @@
 
         function renderRows() {
             const body = document.getElementById('grid-body');
+            const days = getDaysInMonth(currentMonth, currentYear);
+            const offset = getStartDayOffset(currentMonth, currentYear);
+
             goalNames.forEach((name, gIdx) => {
                 const tr = document.createElement('tr');
 
@@ -559,14 +682,22 @@
 
                 // Daily Checkboxes
                 let wCount = 1;
-                for (let i = 1; i <= monthDays; i++) {
-                    const dayIndex = (startDayOffset + i - 1) % 7;
+                const now = new Date();
+                const isThisMonth = (now.getFullYear() === currentYear && now.getMonth() === currentMonth);
+
+                for (let i = 1; i <= days; i++) {
+                    const dayIndex = (offset + i - 1) % 7;
                     const isSunday = (dayIndex === 0);
 
                     const td = document.createElement('td');
                     td.className = 'checkbox-cell';
-                    if (isSunday || i === monthDays) td.classList.add('week-boundary');
+                    if (isSunday || i === days) td.classList.add('week-boundary');
                     if (wCount % 2 === 0) td.classList.add('alt-week-td');
+
+                    // Highlight today
+                    if (isThisMonth && now.getDate() === i) {
+                        td.classList.add('today-highlight');
+                    }
 
                     const cb = document.createElement('input');
                     cb.type = 'checkbox';
@@ -589,8 +720,10 @@
             const unchecked = total - checked;
 
             // Update Pie Chart
-            completionPieChart.data.datasets[0].data = [checked, unchecked];
-            completionPieChart.update();
+            if (completionPieChart) {
+                completionPieChart.data.datasets[0].data = [checked, unchecked];
+                completionPieChart.update();
+            }
 
             // Calculate Weekly Data for Line Chart
             const weeklyCompletion = [];
@@ -598,31 +731,40 @@
             let startDay = 1;
 
             weeks.forEach((w, index) => {
-                const colspan = parseInt(w.getAttribute('colSpan'));
+                const colspan = w.colSpan || 1;
                 let weekChecked = 0;
                 let weekTotal = colspan * goalValues.length;
 
                 for (let g = 0; g < goalValues.length; g++) {
                     for (let d = startDay; d < startDay + colspan; d++) {
-                        if (document.getElementById(`g-${g}-d-${d}`).checked) weekChecked++;
+                        const cb = document.getElementById(`g-${g}-d-${d}`);
+                        if (cb && cb.checked) weekChecked++;
                     }
                 }
-                weeklyCompletion.push((weekChecked / weekTotal * 100).toFixed(1));
+                const ratio = weekTotal > 0 ? (weekChecked / weekTotal) * 100 : 0;
+                weeklyCompletion.push(ratio.toFixed(1));
                 startDay += colspan;
             });
 
-            progressLineChart.data.datasets[0].data = weeklyCompletion;
-            progressLineChart.update();
+            if (progressLineChart) {
+                progressLineChart.data.datasets[0].labels = Array.from({ length: weeks.length }, (_, i) => `W${i + 1}`);
+                progressLineChart.data.datasets[0].data = weeklyCompletion;
+                progressLineChart.update();
+            }
 
             updateMiniCalendar();
         }
 
         function renderMiniCalendar() {
             const container = document.getElementById('mini-calendar');
-            const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+            if (!container) return;
+            const daysShort = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+            const days = getDaysInMonth(currentMonth, currentYear);
+            const offset = getStartDayOffset(currentMonth, currentYear);
 
             // Render Day Labels
-            days.forEach(d => {
+            daysShort.forEach(d => {
                 const div = document.createElement('div');
                 div.className = 'calendar-day-label';
                 div.textContent = d;
@@ -630,15 +772,19 @@
             });
 
             // Empty slots for start offset
-            for (let i = 0; i < startDayOffset; i++) {
+            for (let i = 0; i < offset; i++) {
                 const div = document.createElement('div');
                 container.appendChild(div);
             }
 
             // Fill dates
-            for (let i = 1; i <= monthDays; i++) {
+            const now = new Date();
+            const isThisMonth = (now.getFullYear() === currentYear && now.getMonth() === currentMonth);
+
+            for (let i = 1; i <= days; i++) {
                 const div = document.createElement('div');
                 div.className = 'calendar-date';
+                if (isThisMonth && now.getDate() === i) div.classList.add('today');
                 div.id = `cal-date-${i}`;
                 div.textContent = i;
                 container.appendChild(div);
@@ -646,7 +792,8 @@
         }
 
         function updateMiniCalendar() {
-            for (let d = 1; d <= monthDays; d++) {
+            const days = getDaysInMonth(currentMonth, currentYear);
+            for (let d = 1; d <= days; d++) {
                 let allDone = true;
                 for (let g = 0; g < goalNames.length; g++) {
                     const cb = document.getElementById(`g-${g}-d-${d}`);
@@ -725,12 +872,14 @@
             document.querySelectorAll('.custom-cb').forEach(cb => {
                 if (cb.checked) data[cb.id] = true;
             });
-            localStorage.setItem('gym_progress_v2', JSON.stringify(data));
+            const storageKey = `gym_prog_v2_${currentMonth}_${currentYear}`;
+            localStorage.setItem(storageKey, JSON.stringify(data));
             showToast();
         }
 
         function loadAndRefresh() {
-            const saved = localStorage.getItem('gym_progress_v2');
+            const storageKey = `gym_prog_v2_${currentMonth}_${currentYear}`;
+            const saved = localStorage.getItem(storageKey);
             if (saved) {
                 const data = JSON.parse(saved);
                 Object.keys(data).forEach(id => {
@@ -738,7 +887,9 @@
                     if (el) el.checked = true;
                 });
             }
-            initCharts();
+            if (!completionPieChart || !progressLineChart) {
+                initCharts();
+            }
             updateCharts();
         }
 
