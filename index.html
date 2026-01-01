@@ -204,6 +204,33 @@
       font-weight: 800;
     }
 
+    .progress-btn {
+      margin-top: 15px;
+      background: #fff;
+      color: var(--purple);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      z-index: 3;
+      position: relative;
+      width: fit-content;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-btn:hover {
+      background: var(--purple);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    }
+
     .box-manage {
       background: var(--pink);
       grid-column: 4 / span 3;
@@ -970,8 +997,7 @@
   <!-- Main Content -->
   <main class="canvas" role="main">
     <section class="bento-grid" aria-label="Management dashboard">
-      <article class="box box-rewards" tabindex="0" onclick="window.location.href='GymProgress.html'"
-        style="cursor: pointer;">
+      <article class="box box-rewards" tabindex="0">
         <div class="label">Gym</div>
         <div class="gym-todo">
           <div class="todo-item checked" id="gym-item-1">
@@ -987,6 +1013,12 @@
             <span class="todo-text">Stay Consistent</span>
           </div>
         </div>
+        <button class="progress-btn" onclick="window.location.href='GymProgress.html'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
         <img src="gymboy.png" alt="Gym Boy" class="person-img">
       </article>
 
@@ -1047,6 +1079,12 @@
           <div class="attendance-percent" id="college-val">0%</div>
           <div class="attendance-label">Attendance</div>
         </div>
+        <button class="progress-btn" onclick="window.location.href='CollegeProgress.html'">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
         <img src="college_cartoon.png" alt="College Building" class="person-img">
       </article>
 
