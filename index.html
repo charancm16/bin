@@ -20,22 +20,29 @@
 
         /* ===== CSS VARIABLES ===== */
         :root {
-            --primary: #0a1a3a;
-            --secondary: #00c2ff;
-            --accent: #ff3c3c;
-            --success: #28a745;
-            --warning: #ffc107;
-            --dark: #050b1a;
-            --light: #ffffff;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-dark: rgba(0, 0, 0, 0.3);
-            --text-light: #e0e0e0;
-            --text-dark: #071326;
+            --primary: #002147;
+            --secondary: #003F88;
+            --accent: #FFB703;
+            --success: #00B4A6;
+            --warning: #FF6B35;
+            --dark: #1C1C1C;
+            --light: #FFFFFF;
+            --glass: rgba(0, 33, 71, 0.04);
+            --glass-dark: rgba(28, 28, 28, 0.08);
+            --text-light: #5A5A5A;
+            --text-dark: #1C1C1C;
             --radius: 12px;
-            --shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --shadow: 0 4px 12px rgba(0, 33, 71, 0.1);
             --transition: all 0.3s ease;
             --header-height: 80px;
         }
+
+        .hero-buttons .btn:hover,
+.hero-buttons .btn-secondary:hover {
+    box-shadow: 0 0 0 3px rgba(255,183,3,0.25),
+                0 0 15px rgba(255,183,3,0.35);
+}
+
 
         /* ===== LANGUAGE SPECIFIC FONTS ===== */
         .lang-te * {
@@ -60,8 +67,8 @@
 
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #071326, #0d2b52, #08142e);
-            color: var(--light);
+            background: #002147;
+            color: #FFFFFF;
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
@@ -100,13 +107,14 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 6%;
-            background: rgba(10, 26, 58, 0.95);
+            background: #002147;
             position: sticky;
             top: 0;
             z-index: 1000;
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 194, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 33, 71, 0.15);
             height: var(--header-height);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .logo-container {
@@ -122,14 +130,14 @@
         }
 
         .logo-text h1 {
-            color: var(--secondary);
+            color: #FFFFFF;
             font-size: 1.8rem;
             line-height: 1.2;
         }
 
         .logo-text p {
             font-size: 0.9rem;
-            color: var(--text-light);
+            color: #E8EEF7;
             font-weight: 300;
         }
 
@@ -140,7 +148,7 @@
         }
 
         nav a {
-            color: var(--light);
+            color: #FFFFFF;
             text-decoration: none;
             padding: 10px 18px;
             border-radius: 30px;
@@ -151,8 +159,8 @@
 
         nav a:hover,
         nav a.active {
-            background: rgba(0, 194, 255, 0.1);
-            color: var(--secondary);
+            background: rgba(255, 183, 3, 0.2);
+            color: #FFB703;
         }
 
         nav a::after {
@@ -190,23 +198,25 @@
         }
 
         .lang-btn {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--light);
+            background: rgba(255, 183, 3, 0.1);
+            border: 2px solid rgba(255, 183, 3, 0.5);
+            color: #FFB703;
             padding: 8px 16px;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 0.9rem;
             transition: var(--transition);
             min-width: 45px;
             text-align: center;
+            font-weight: 600;
         }
 
         .lang-btn:hover,
         .lang-btn.active {
-            background: var(--secondary);
-            color: var(--dark);
-            transform: scale(1.05);
+            background: #FFB703;
+            color: #002147;
+            transform: scale(1.08);
+            box-shadow: 0 4px 12px rgba(255, 183, 3, 0.3);
         }
 
         /* ===== HERO SECTION ===== */
@@ -228,19 +238,67 @@
         }
 
         .hero-text h2 {
-            font-size: 3.2rem;
-            line-height: 1.2;
-            margin-bottom: 20px;
-            background: linear-gradient(90deg, var(--light), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 4.4rem;
+            line-height: 1.05;
+            margin-bottom: 18px;
+            color: #FFFFFF;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        /* Make the main title larger across languages */
+        .hero-text h2 .lang-content {
+            display: block;
+            font-size: 4.4rem;
+            line-height: 1.05;
+            font-weight: 700;
+        }
+
+        /* Tagline inside the h2 (the inner span) should be smaller and highlighted */
+        .hero-text h2 .lang-content span {
+            display: block;
+            font-size: 0.45em;
+            margin-top: 8px;
+            color: #FFB703;
+            font-weight: 600;
+            letter-spacing: 0;
         }
 
         .hero-text p {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             margin: 25px 0;
-            color: var(--text-light);
-            max-width: 500px;
+            color: #FFFFFF;
+            max-width: 600px;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1023px) {
+            .hero-text h2,
+            .hero-text h2 .lang-content {
+                font-size: 3rem;
+            }
+            .hero-text h2 .lang-content span { font-size: 0.5em; }
+            .hero-text p { font-size: 1.05rem; }
+        }
+
+        @media (max-width: 767px) {
+            .hero-text h2,
+            .hero-text h2 .lang-content {
+                font-size: 2rem;
+            }
+            .hero-text h2 .lang-content span { font-size: 0.6em; }
+            .hero-text p { font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-text h2,
+            .hero-text h2 .lang-content {
+                font-size: 1.6rem;
+            }
+            .hero-text h2 .lang-content span { font-size: 0.7em; }
+            .hero-text p { font-size: 0.95rem; }
         }
 
         .hero-buttons {
@@ -257,8 +315,8 @@
         .btn {
             padding: 14px 32px;
             border: none;
-            background: linear-gradient(135deg, var(--secondary), #008cff);
-            color: var(--dark);
+            background: linear-gradient(135deg, #002147, #003F88);
+            color: #FFFFFF;
             font-weight: 600;
             border-radius: 30px;
             cursor: pointer;
@@ -271,7 +329,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: var(--shadow);
+            box-shadow: 0 4px 12px rgba(0, 33, 71, 0.15);
         }
 
         .btn::before {
@@ -281,32 +339,28 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #008cff, var(--secondary));
+            background: linear-gradient(135deg, #003F88, #004BA8);
             transition: left 0.4s ease;
             z-index: -1;
         }
 
-        .btn:hover::before {
-            left: 0;
-        }
-
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0, 140, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 33, 71, 0.2);
         }
 
         .btn-secondary {
             background: transparent;
-            border: 2px solid var(--secondary);
-            color: var(--secondary);
+            border: 2px solid #003F88;
+            color: #003F88;
         }
 
         .btn-secondary::before {
-            background: var(--secondary);
+            background: #003F88;
         }
 
         .btn-secondary:hover {
-            color: var(--dark);
+            color: #FFFFFF;
         }
 
         .btn-small {
@@ -327,7 +381,7 @@
         }
 
         .section-header h2 {
-            color: var(--secondary);
+            color: #FFFFFF;
             font-size: 2.5rem;
             margin-bottom: 15px;
             position: relative;
@@ -342,14 +396,14 @@
             transform: translateX(-50%);
             width: 80px;
             height: 4px;
-            background: var(--secondary);
+            background: #FFB703;
             border-radius: 2px;
         }
 
         .section-header p {
             max-width: 700px;
             margin: 0 auto;
-            color: var(--text-light);
+            color: #E0E8F0;
             font-size: 1.1rem;
         }
 
@@ -361,10 +415,10 @@
         }
 
         .card {
-            background: var(--glass);
+            background: rgba(0, 33, 71, 0.3);
             border-radius: var(--radius);
             padding: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 183, 3, 0.2);
             transition: var(--transition);
             backdrop-filter: blur(10px);
             height: 100%;
@@ -373,6 +427,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
         .card::before {
@@ -382,30 +437,30 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            background: linear-gradient(90deg, #002147, #FFB703);
             z-index: 2;
         }
 
         .card:hover {
             transform: translateY(-10px);
-            border-color: var(--secondary);
-            box-shadow: var(--shadow);
+            border-color: #FFB703;
+            box-shadow: 0 12px 24px rgba(0, 33, 71, 0.1);
         }
 
         .card-icon {
             font-size: 2.8rem;
             margin-bottom: 20px;
-            color: var(--secondary);
+            color: #002147;
         }
 
         .card h3 {
             font-size: 1.5rem;
             margin-bottom: 15px;
-            color: var(--light);
+            color: #FFB703;
         }
 
         .card p {
-            color: var(--text-light);
+            color: #E0E8F0;
             margin-bottom: 20px;
             flex-grow: 1;
         }
@@ -422,8 +477,8 @@
 
         .news-date {
             display: inline-block;
-            background: rgba(255, 60, 60, 0.1);
-            color: var(--accent);
+            background: rgba(255, 183, 3, 0.1);
+            color: #FF6B35;
             padding: 5px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
@@ -433,18 +488,20 @@
 
         /* ===== CONTACT SECTION ===== */
         .contact-info {
-            max-width: 800px;
+            max-width: 1100px;
             margin: 0 auto;
-            background: var(--glass);
-            padding: 40px;
+            background: rgba(0, 33, 71, 0.3);
+            padding: 50px;
             border-radius: var(--radius);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 194, 255, 0.2);
+            border: 1px solid rgba(255, 183, 3, 0.2);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
         }
 
         .contact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
             gap: 30px;
             margin-top: 30px;
         }
@@ -458,70 +515,103 @@
         .contact-icon {
             width: 50px;
             height: 50px;
-            background: rgba(0, 194, 255, 0.1);
+            background: rgba(255, 183, 3, 0.2);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.3rem;
-            color: var(--secondary);
+            color: #FFB703;
             flex-shrink: 0;
         }
 
         /* ===== FOOTER ===== */
         footer {
-            background: rgba(5, 11, 26, 0.9);
-            padding: 50px 6% 20px;
-            border-top: 1px solid rgba(0, 194, 255, 0.2);
+            background: #002147;
+            padding: 70px 8% 40px;
+            border-top: 1px solid rgba(255, 183, 3, 0.08);
         }
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 48px;
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            align-items: start;
         }
 
         .footer-column h3 {
-            color: var(--secondary);
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+            color: #FFB703;
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+            font-weight: 700;
         }
 
         .footer-column ul {
             list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
         .footer-column ul li {
-            margin-bottom: 10px;
+            margin-bottom: 14px;
         }
 
         .footer-column ul li a {
-            color: var(--text-light);
+            color: #E8EEF7;
             text-decoration: none;
             transition: var(--transition);
+            font-size: 1.03rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .footer-column ul li a:hover {
-            color: var(--secondary);
-            padding-left: 5px;
+            color: #FFB703;
+            padding-left: 6px;
+        }
+
+        .footer-column ul li i,
+        .footer-column ul li .icon {
+            color: #FFB703;
+            margin-right: 8px;
+            font-size: 1.05rem;
+            line-height: 1;
         }
 
         .copyright {
             text-align: center;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-light);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            color: #E8EEF7;
             font-size: 0.9rem;
         }
 
         /* ===== LANGUAGE CONTENT ===== */
         .lang-content {
-            display: none;
+            display: none !important;
         }
         
         .lang-content.active {
-            display: block;
+            display: block !important;
+        }
+        
+        /* Language specific content visibility */
+        .lang-en .lang-en,
+        .lang-te .lang-te,
+        .lang-hi .lang-hi {
+            display: block !important;
+        }
+        
+        .lang-en .lang-te,
+        .lang-en .lang-hi,
+        .lang-te .lang-en,
+        .lang-te .lang-hi,
+        .lang-hi .lang-en,
+        .lang-hi .lang-te {
+            display: none !important;
         }
 
         /* ===== ANIMATIONS ===== */
@@ -533,6 +623,48 @@
             to {
                 opacity: 1;
                 transform: translateY(0);
+            }
+        }
+
+        @keyframes floatAround {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+            50% {
+                transform: translateY(-30px) rotate(0deg);
+            }
+            75% {
+                transform: translateY(-15px) rotate(-5deg);
+            }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                filter: drop-shadow(0 0 20px rgba(0, 33, 71, 0.3));
+            }
+            50% {
+                filter: drop-shadow(0 0 40px rgba(255, 183, 3, 0.4)) drop-shadow(0 0 60px rgba(0, 33, 71, 0.2));
+            }
+        }
+
+        @keyframes rotateGently {
+            0%, 100% {
+                transform: rotate(0deg);
+            }
+            50% {
+                transform: rotate(3deg);
+            }
+        }
+
+        @keyframes scaleFloat {
+            0%, 100% {
+                transform: scale(1) translateY(0px);
+            }
+            50% {
+                transform: scale(1.05) translateY(-20px);
             }
         }
 
@@ -551,12 +683,19 @@
             }
             
             .hero-visual {
-                width: 400px;
-                height: 400px;
+                width: 560px;
+                height: 560px;
             }
             
             .cards {
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+
+            /* Contact grid: force 3 columns on desktop */
+            .contact-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 40px;
+                align-items: start;
             }
             
             .footer-content {
@@ -582,8 +721,8 @@
             }
             
             .hero-visual {
-                width: 320px;
-                height: 320px;
+                width: 440px;
+                height: 440px;
             }
             
             .hero-buttons {
@@ -592,6 +731,12 @@
             
             .cards {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            /* Contact grid: 2 columns on tablet */
+            .contact-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
             }
             
             .footer-content {
@@ -635,7 +780,7 @@
                 top: var(--header-height);
                 left: 0;
                 width: 100%;
-                background: rgba(10, 26, 58, 0.98);
+                background: #002147;
                 flex-direction: column;
                 padding: 20px;
                 transform: translateY(-100%);
@@ -643,7 +788,7 @@
                 visibility: hidden;
                 transition: var(--transition);
                 backdrop-filter: blur(10px);
-                border-top: 1px solid rgba(0, 194, 255, 0.2);
+                border-top: 1px solid rgba(255, 183, 3, 0.2);
                 z-index: 999;
             }
             
@@ -712,8 +857,8 @@
             
             .hero-visual {
                 margin-top: 40px;
-                width: 250px;
-                height: 250px;
+                width: 340px;
+                height: 340px;
             }
             
             .hero-visual::after {
@@ -834,8 +979,8 @@
             }
             
             .hero-visual {
-                width: 200px;
-                height: 200px;
+                width: 240px;
+                height: 240px;
             }
         }
         
@@ -864,18 +1009,7 @@
     <header>
         <div class="logo-container">
             <img src="Adobe Express - file.png" alt="AP Police Logo" class="logo-img">
-            <div class="logo-text">
-                <h1>
-                    <span class="lang-content lang-en">AP Police HQ</span>
-                    <span class="lang-content lang-te">ఏపీ పోలీస్ ముఖ్య కార్యాలయం</span>
-                    <span class="lang-content lang-hi">एपी पुलिस मुख्यालय</span>
-                </h1>
-                <p>
-                    <span class="lang-content lang-en">Andhra Pradesh Police</span>
-                    <span class="lang-content lang-te">ఆంధ్రప్రదేశ్ పోలీస్</span>
-                    <span class="lang-content lang-hi">आंध्र प्रदेश पुलिस</span>
-                </p>
-            </div>
+            <div class="logo-text" aria-hidden="true"></div>
         </div>
         
         <!-- Desktop Navigation -->
@@ -932,13 +1066,13 @@
             <div class="hero-text">
                 <h2>
                     <span class="lang-content lang-en">Andhra Pradesh Police<br>
-                    <span style="color:var(--secondary);">Serving With Integrity & Courage</span></span>
+                    <span style="color:#FFB703;">Serving With Integrity & Courage</span></span>
                     
                     <span class="lang-content lang-te">ఆంధ్రప్రదేశ్ పోలీస్<br>
-                    <span style="color:var(--secondary);">సమగ్రత మరియు ధైర్యంతో సేవ</span></span>
+                    <span style="color:#FFB703;">సమగ్రత మరియు ధైర్యంతో సేవ</span></span>
                     
                     <span class="lang-content lang-hi">आंध्र प्रदेश पुलिस<br>
-                    <span style="color:var(--secondary);">ईमानदारी और साहस के साथ सेवा</span></span>
+                    <span style="color:#FFB703;">ईमानदारी और साहस के साथ सेवा</span></span>
                 </h2>
                 
                 <p class="lang-content lang-en">
@@ -951,7 +1085,7 @@
                 </p>
                 <p class="lang-content lang-hi">
                     आंध्र प्रदेश भर में सार्वजनिक सुरक्षा, अपराध निवारण और डिजिटल सुरक्षा सुनिश्चित करना।
-                    न्याय, पारदर्शिता और सामुदायिक भागीदारी के प्रति प्रतिबद्ध।
+                    न्याय, पारदर्शिता और सामुदायिक भागीदारी के प्रति प्रतिबद्ध。
                 </p>
                 
                 <div class="hero-buttons">
@@ -971,7 +1105,7 @@
             </div>
             
             <div class="hero-visual">
-                <img src="king.png" alt="Ashoka Emblem" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 30px rgba(0, 194, 255, 0.3));">
+                <img src="queen.png" alt="Ashoka Emblem" style="width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 0 30px rgba(0, 194, 255, 0.3));">
             </div>
         </section>
         
@@ -1610,45 +1744,90 @@
         
         // Language functions
         function initializeLanguage() {
-            // Check for saved language preference
-            const savedLang = localStorage.getItem('ap-police-lang') || 'en';
-            switchLanguage(savedLang);
+            try {
+                // Check for saved language preference
+                const savedLang = localStorage.getItem('ap-police-lang') || 'en';
+                const validLangs = ['en', 'te', 'hi'];
+                
+                if (validLangs.includes(savedLang)) {
+                    switchLanguage(savedLang);
+                } else {
+                    switchLanguage('en');
+                }
+                
+                console.log('Language initialized with:', savedLang);
+            } catch(error) {
+                console.error('Error initializing language:', error);
+                switchLanguage('en');
+            }
         }
         
         function switchLanguage(lang) {
-            // Update body class
-            document.body.className = '';
-            document.body.classList.add(`lang-${lang}`);
-            
-            // Update active language button
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if(btn.getAttribute('data-lang') === lang) {
-                    btn.classList.add('active');
+            try {
+                // Normalize language code
+                const validLangs = ['en', 'te', 'hi'];
+                if (!validLangs.includes(lang)) {
+                    lang = 'en';
                 }
-            });
-            
-            // Show/hide language content
-            document.querySelectorAll('.lang-content').forEach(content => {
-                content.classList.remove('active');
-                if(content.classList.contains(`lang-${lang}`)) {
-                    content.classList.add('active');
+                
+                // Update body class - preserve existing classes and add language class
+                const currentClasses = document.body.className.split(' ').filter(cls => !cls.startsWith('lang-'));
+                document.body.className = currentClasses.join(' ');
+                document.body.classList.add(`lang-${lang}`);
+                
+                // Update active language button
+                const langBtns = document.querySelectorAll('.lang-btn');
+                langBtns.forEach(btn => {
+                    btn.classList.remove('active');
+                    if(btn.getAttribute('data-lang') === lang) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                // Show/hide language content - handle all variations
+                const langContents = document.querySelectorAll('.lang-content');
+                langContents.forEach(content => {
+                    const hasLangClass = content.classList.contains(`lang-${lang}`);
+                    
+                    if (hasLangClass) {
+                        content.classList.add('active');
+                        content.style.display = 'block';
+                    } else {
+                        content.classList.remove('active');
+                        content.style.display = 'none';
+                    }
+                });
+                
+                // Update HTML lang attribute
+                const langMap = {
+                    'te': 'te',
+                    'hi': 'hi',
+                    'en': 'en'
+                };
+                document.documentElement.lang = langMap[lang] || 'en';
+                
+                // Update HTML dir attribute for RTL if needed (Hindi/Telugu LTR, English LTR)
+                document.documentElement.dir = 'ltr';
+                
+                // Save preference to localStorage
+                localStorage.setItem('ap-police-lang', lang);
+                
+                // Update body fonts and styles
+                if(lang === 'te') {
+                    document.body.style.fontFamily = "'Noto Sans Telugu', 'Poppins', sans-serif";
+                } else if(lang === 'hi') {
+                    document.body.style.fontFamily = "'Noto Sans Devanagari', 'Poppins', sans-serif";
+                } else {
+                    document.body.style.fontFamily = "'Poppins', sans-serif";
                 }
-            });
-            
-            // Update HTML lang attribute
-            document.documentElement.lang = lang === 'te' ? 'te' : lang === 'hi' ? 'hi' : 'en';
-            
-            // Save preference to localStorage
-            localStorage.setItem('ap-police-lang', lang);
-            
-            // Update fonts for Telugu and Hindi
-            if(lang === 'te') {
-                document.body.style.fontFamily = "'Noto Sans Telugu', 'Poppins', sans-serif";
-            } else if(lang === 'hi') {
-                document.body.style.fontFamily = "'Noto Sans Devanagari', 'Poppins', sans-serif";
-            } else {
-                document.body.style.fontFamily = "'Poppins', sans-serif";
+                
+                // Log successful language switch
+                console.log('Language switched to:', lang);
+            } catch(error) {
+                console.error('Error switching language:', error);
+                // Fallback to English
+                document.body.className = 'lang-en';
+                localStorage.setItem('ap-police-lang', 'en');
             }
         }
         
