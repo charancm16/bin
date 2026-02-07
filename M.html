@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vijayawada Police Stations Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 130px);
+        }
+        
+        @media (min-width: 992px) {
+            .container {
+                flex-direction: row;
+            }
+        }
+        
+        .map-container {
+            flex: 1;
+            height: 60vh;
+            position: relative;
+        }
+        
+        @media (min-width: 992px) {
+            .map-container {
+                height: auto;
+            }
+        }
+        
+        #map {
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+        }
+        
+        .sidebar {
+            background-color: white;
+            padding: 1.5rem;
+            overflow-y: auto;
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.05);
+            height: 40vh;
+        }
+        
+        @media (min-width: 992px) {
+            .sidebar {
+                width: 400px;
+                height: auto;
+            }
+        }
+        
+        .sidebar h2 {
+            color: #1a237e;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e8eaf6;
+        }
+        
+        .station-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .station-item {
+            padding: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid #3f51b5;
+            background-color: #f9f9f9;
+        }
+        
+        .station-item:hover {
+            background-color: #e8eaf6;
+            transform: translateX(5px);
+        }
+        
+        .station-item.active {
+            background-color: #e8eaf6;
+            border-left: 4px solid #f44336;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .station-name {
+            font-weight: 600;
+            color: #1a237e;
+            margin-bottom: 0.3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .station-zone {
+            font-size: 0.85rem;
+            color: #666;
+            background-color: #e3f2fd;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .station-address {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 0.3rem;
+        }
+        
+        .station-contact {
+            font-size: 0.85rem;
+            color: #777;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .station-contact i {
+            color: #3f51b5;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            padding: 0.7rem 1.2rem;
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .control-btn:hover {
+            background-color: #303f9f;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .control-btn.reset {
+            background-color: #f44336;
+        }
+        
+        .control-btn.reset:hover {
+            background-color: #d32f2f;
+        }
+        
+        .control-btn.zone {
+            background-color: #4caf50;
+        }
+        
+        .control-btn.zone:hover {
+            background-color: #388e3c;
+        }
+        
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .zone-east { background-color: #e91e63; }
+        .zone-west { background-color: #2196f3; }
+        .zone-rural { background-color: #4caf50; }
+        .zone-special { background-color: #ff9800; }
+        
+        .footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #1a237e;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .footer a {
+            color: #bbdefb;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .map-title {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            font-weight: 600;
+            color: #1a237e;
+            border-left: 4px solid #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1><i class="fas fa-map-marker-alt"></i> Vijayawada Police Stations</h1>
+        <p>Interactive map showing all 30+ police stations in Vijayawada with contact information and zones</p>
+    </div>
+    
+    <div class="container">
+        <div class="map-container">
+            <div class="map-title">Vijayawada Police Commissionerate</div>
+            <div id="map"></div>
+        </div>
+        
+        <div class="sidebar">
+            <h2><i class="fas fa-list"></i> Police Stations List</h2>
+            <div class="station-list" id="stationList">
+                <!-- Police stations will be loaded here by JavaScript -->
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color zone-east"></div>
+                    <span>Zone I (East)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color zone-west"></div>
+                    <span>Zone II (West)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color zone-rural"></div>
+                    <span>Zone III (Rural)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color zone-special"></div>
+                    <span>Special/Traffic</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button class="control-btn" id="showAllBtn">
+            <i class="fas fa-globe-asia"></i> Show All Stations
+        </button>
+        <button class="control-btn zone" id="zoneFilterBtn">
+            <i class="fas fa-filter"></i> Filter by Zone
+        </button>
+        <button class="control-btn" id="listViewBtn">
+            <i class="fas fa-list-ul"></i> List View
+        </button>
+        <button class="control-btn reset" id="resetBtn">
+            <i class="fas fa-sync-alt"></i> Reset Map
+        </button>
+    </div>
+    
+    <div class="footer">
+        <p>Data source: Vijayawada Police Commissionerate | Map coordinates are approximate. For official information, visit <a href="https://police.ap.gov.in" target="_blank">police.ap.gov.in</a></p>
+        <p>Note: This is a demonstration map. Actual coordinates need to be updated for precise locations.</p>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Vijayawada coordinates (center of the city)
+        const vijayawadaCoords = [16.5062, 80.6480];
+        
+        // Initialize the map
+        const map = L.map('map').setView(vijayawadaCoords, 12);
+        
+        // Add OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+        
+        // Police stations data with approximate coordinates
+        // Note: These coordinates are approximate and should be updated with exact locations
+        const policeStations = [
+            {
+                id: 1,
+                name: "Governorpet Police Station",
+                address: "Governorpet, Vijayawada, Andhra Pradesh 520002",
+                contact: "0866-2423245",
+                zone: "Zone I (East)",
+                coords: [16.5150, 80.6350],
+                type: "zone-east"
+            },
+            {
+                id: 2,
+                name: "One Town Police Station",
+                address: "Near Vijayawada Railway Station, One Town, Vijayawada",
+                contact: "0866-2474110",
+                zone: "Zone I (East)",
+                coords: [16.5180, 80.6200],
+                type: "zone-east"
+            },
+            {
+                id: 3,
+                name: "Gandhinagar Police Station",
+                address: "Gandhinagar, Vijayawada, Andhra Pradesh 520003",
+                contact: "0866-2425678",
+                zone: "Zone I (East)",
+                coords: [16.5100, 80.6400],
+                type: "zone-east"
+            },
+            {
+                id: 4,
+                name: "Kothapet Police Station",
+                address: "Kothapet, Vijayawada, Andhra Pradesh 520001",
+                contact: "0866-2429987",
+                zone: "Zone I (East)",
+                coords: [16.5050, 80.6450],
+                type: "zone-east"
+            },
+            {
+                id: 5,
+                name: "Suryaraopet Police Station",
+                address: "Suryaraopet, Vijayawada, Andhra Pradesh 520002",
+                contact: "0866-2421122",
+                zone: "Zone I (East)",
+                coords: [16.5080, 80.6300],
+                type: "zone-east"
+            },
+            {
+                id: 6,
+                name: "Gunadala Police Station",
+                address: "Gunadala, Vijayawada, Andhra Pradesh 520004",
+                contact: "0866-2423344",
+                zone: "Zone I (East)",
+                coords: [16.5250, 80.6250],
+                type: "zone-east"
+            },
+            {
+                id: 7,
+                name: "Ajit Singh Nagar Police Station",
+                address: "Near Benz Circle, Ajit Singh Nagar, Vijayawada",
+                contact: "0866-2474123",
+                zone: "Zone I (East)",
+                coords: [16.5000, 80.6400],
+                type: "zone-east"
+            },
+            {
+                id: 8,
+                name: "Nuzvid Road Police Station",
+                address: "Nuzvid Road, Vijayawada, Andhra Pradesh 520007",
+                contact: "0866-2427788",
+                zone: "Zone II (West)",
+                coords: [16.4950, 80.6600],
+                type: "zone-west"
+            },
+            {
+                id: 9,
+                name: "Machavaram Police Station",
+                address: "Machavaram Down, Vijayawada, Andhra Pradesh 520004",
+                contact: "0866-2428899",
+                zone: "Zone II (West)",
+                coords: [16.5150, 80.6550],
+                type: "zone-west"
+            },
+            {
+                id: 10,
+                name: "Bhavanipuram Police Station",
+                address: "Bhavanipuram, Vijayawada, Andhra Pradesh 520012",
+                contact: "0866-2425566",
+                zone: "Zone II (West)",
+                coords: [16.5250, 80.6150],
+                type: "zone-west"
+            },
+            {
+                id: 11,
+                name: "Patamata Police Station",
+                address: "Patamata, Vijayawada, Andhra Pradesh 520010",
+                contact: "0866-2474333",
+                zone: "Zone II (West)",
+                coords: [16.4900, 80.6500],
+                type: "zone-west"
+            },
+            {
+                id: 12,
+                name: "Labbipet Police Station",
+                address: "Labbipet, Vijayawada, Andhra Pradesh 520010",
+                contact: "0866-2426677",
+                zone: "Zone II (West)",
+                coords: [16.5050, 80.6250],
+                type: "zone-west"
+            },
+            {
+                id: 13,
+                name: "Moghalrajapuram Police Station",
+                address: "Moghalrajapuram, Vijayawada, Andhra Pradesh 520010",
+                contact: "0866-2429911",
+                zone: "Zone II (West)",
+                coords: [16.4950, 80.6350],
+                type: "zone-west"
+            },
+            {
+                id: 14,
+                name: "Vidyadharapuram Police Station",
+                address: "Vidyadharapuram, Vijayawada, Andhra Pradesh 520012",
+                contact: "0866-2474888",
+                zone: "Zone II (West)",
+                coords: [16.5200, 80.6100],
+                type: "zone-west"
+            },
+            {
+                id: 15,
+                name: "Penamaluru Police Station",
+                address: "Penamaluru, Vijayawada Outskirts, Andhra Pradesh",
+                contact: "0866-2421234",
+                zone: "Zone II (West)",
+                coords: [16.4800, 80.6700],
+                type: "zone-west"
+            },
+            {
+                id: 16,
+                name: "Ibrahimpatnam Police Station",
+                address: "Ibrahimpatnam Town, Vijayawada Rural, Andhra Pradesh",
+                contact: "0866-2882222",
+                zone: "Zone III (Rural)",
+                coords: [16.5800, 80.6200],
+                type: "zone-rural"
+            },
+            {
+                id: 17,
+                name: "Kanuru Police Station",
+                address: "Kanuru Area, Vijayawada, Andhra Pradesh 520007",
+                contact: "0866-2429090",
+                zone: "Zone III (Rural)",
+                coords: [16.5300, 80.6600],
+                type: "zone-rural"
+            },
+            {
+                id: 18,
+                name: "Gollapudi Police Station",
+                address: "Gollapudi, Vijayawada, Andhra Pradesh 521225",
+                contact: "0866-2428080",
+                zone: "Zone III (Rural)",
+                coords: [16.5400, 80.6400],
+                type: "zone-rural"
+            },
+            {
+                id: 19,
+                name: "Kondapalli Police Station",
+                address: "Kondapalli Area, Vijayawada Rural, Andhra Pradesh",
+                contact: "0866-2427070",
+                zone: "Zone III (Rural)",
+                coords: [16.6200, 80.5400],
+                type: "zone-rural"
+            },
+            {
+                id: 20,
+                name: "Kankipadu Police Station",
+                address: "Kankipadu, Vijayawada Rural, Andhra Pradesh 521151",
+                contact: "0866-2426060",
+                zone: "Zone III (Rural)",
+                coords: [16.4500, 80.7800],
+                type: "zone-rural"
+            },
+            {
+                id: 21,
+                name: "Vijayawada Traffic Police Station (Main)",
+                address: "Near Commissioner's Office, Vijayawada",
+                contact: "0866-2474999",
+                zone: "Special/Traffic",
+                coords: [16.5080, 80.6480],
+                type: "zone-special"
+            },
+            {
+                id: 22,
+                name: "Women Police Station",
+                address: "Governorpet/Arunodaya Colony Area, Vijayawada",
+                contact: "0866-2474100",
+                zone: "Special/Traffic",
+                coords: [16.5120, 80.6320],
+                type: "zone-special"
+            },
+            {
+                id: 23,
+                name: "CCS (Crime) Police Station",
+                address: "CID Branch, Vijayawada Commissionerate",
+                contact: "0866-2474222",
+                zone: "Special/Traffic",
+                coords: [16.5060, 80.6500],
+                type: "zone-special"
+            },
+            {
+                id: 24,
+                name: "Cyber Crime Police Station",
+                address: "Commissionerate Complex, Vijayawada",
+                contact: "0866-2474330",
+                zone: "Special/Traffic",
+                coords: [16.5070, 80.6460],
+                type: "zone-special"
+            },
+            {
+                id: 25,
+                name: "Railway Police Station",
+                address: "Vijayawada Junction, Vijayawada",
+                contact: "0866-2474115",
+                zone: "Special/Traffic",
+                coords: [16.5200, 80.6180],
+                type: "zone-special"
+            },
+            {
+                id: 26,
+                name: "Airport Police Station",
+                address: "Vijayawada International Airport, Gannavaram",
+                contact: "0866-2842222",
+                zone: "Special/Traffic",
+                coords: [16.5300, 80.7960],
+                type: "zone-special"
+            }
+        ];
+        
+        // Store markers for later reference
+        let markers = [];
+        
+        // Function to create custom icon based on zone type
+        function createCustomIcon(type) {
+            let iconColor;
+            
+            switch(type) {
+                case 'zone-east': iconColor = '#e91e63'; break;
+                case 'zone-west': iconColor = '#2196f3'; break;
+                case 'zone-rural': iconColor = '#4caf50'; break;
+                case 'zone-special': iconColor = '#ff9800'; break;
+                default: iconColor = '#757575';
+            }
+            
+            return L.divIcon({
+                html: `<div style="background-color: ${iconColor}; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 8px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 12px;">P</div>`,
+                className: 'custom-marker',
+                iconSize: [30, 30],
+                iconAnchor: [15, 15]
+            });
+        }
+        
+        // Function to add markers to the map
+        function addMarkersToMap() {
+            // Clear existing markers
+            markers.forEach(marker => map.removeLayer(marker));
+            markers = [];
+            
+            // Add new markers
+            policeStations.forEach(station => {
+                const marker = L.marker(station.coords, {
+                    icon: createCustomIcon(station.type)
+                }).addTo(map);
+                
+                // Bind popup with station info
+                marker.bindPopup(`
+                    <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; min-width: 250px;">
+                        <h3 style="color: #1a237e; margin-bottom: 8px; border-bottom: 1px solid #eee; padding-bottom: 5px;">${station.name}</h3>
+                        <p style="margin: 5px 0; font-size: 14px;"><strong>Zone:</strong> ${station.zone}</p>
+                        <p style="margin: 5px 0; font-size: 14px;"><strong>Address:</strong> ${station.address}</p>
+                        <p style="margin: 5px 0; font-size: 14px;"><strong>Contact:</strong> ${station.contact}</p>
+                        <button onclick="focusOnStation(${station.id})" style="background-color: #3f51b5; color: white; border: none; padding: 6px 12px; border-radius: 4px; margin-top: 8px; cursor: pointer; font-size: 14px;">View Details</button>
+                    </div>
+                `);
+                
+                // Add click event to center map and open popup
+                marker.on('click', function() {
+                    map.setView(station.coords, 15);
+                    highlightStationInList(station.id);
+                });
+                
+                // Store marker with station id
+                marker.stationId = station.id;
+                markers.push(marker);
+            });
+        }
+        
+        // Function to populate station list
+        function populateStationList() {
+            const stationList = document.getElementById('stationList');
+            stationList.innerHTML = '';
+            
+            policeStations.forEach(station => {
+                const stationItem = document.createElement('div');
+                stationItem.className = 'station-item';
+                stationItem.dataset.id = station.id;
+                
+                stationItem.innerHTML = `
+                    <div class="station-name">
+                        <span>${station.name}</span>
+                        <i class="fas fa-map-marker-alt" style="color: #f44336;"></i>
+                    </div>
+                    <div class="station-zone">${station.zone}</div>
+                    <div class="station-address">${station.address}</div>
+                    <div class="station-contact">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>${station.contact}</span>
+                    </div>
+                `;
+                
+                // Add click event to list item
+                stationItem.addEventListener('click', function() {
+                    const stationId = parseInt(this.dataset.id);
+                    focusOnStation(stationId);
+                });
+                
+                stationList.appendChild(stationItem);
+            });
+        }
+        
+        // Function to focus on a specific station
+        function focusOnStation(stationId) {
+            const station = policeStations.find(s => s.id === stationId);
+            if (!station) return;
+            
+            // Center map on station
+            map.setView(station.coords, 16);
+            
+            // Open popup for the corresponding marker
+            const marker = markers.find(m => m.stationId === stationId);
+            if (marker) {
+                marker.openPopup();
+            }
+            
+            // Highlight in list
+            highlightStationInList(stationId);
+        }
+        
+        // Function to highlight station in list
+        function highlightStationInList(stationId) {
+            // Remove active class from all items
+            document.querySelectorAll('.station-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            const stationItem = document.querySelector(`.station-item[data-id="${stationId}"]`);
+            if (stationItem) {
+                stationItem.classList.add('active');
+                stationItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+        
+        // Function to show all stations
+        function showAllStations() {
+            if (markers.length === 0) return;
+            
+            const bounds = L.latLngBounds(markers.map(marker => marker.getLatLng()));
+            map.fitBounds(bounds, { padding: [50, 50] });
+        }
+        
+        // Function to filter by zone
+        function filterByZone() {
+            // In a real implementation, you would filter markers by zone
+            // For this demo, we'll just show an alert
+            alert("Zone filter functionality would show/hide markers based on selected zone. This is a demo implementation.");
+        }
+        
+        // Function to reset map to default view
+        function resetMap() {
+            map.setView(vijayawadaCoords, 12);
+            
+            // Remove active class from all list items
+            document.querySelectorAll('.station-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Close any open popups
+            markers.forEach(marker => {
+                marker.closePopup();
+            });
+        }
+        
+        // Initialize map and list
+        addMarkersToMap();
+        populateStationList();
+        
+        // Add event listeners to control buttons
+        document.getElementById('showAllBtn').addEventListener('click', showAllStations);
+        document.getElementById('zoneFilterBtn').addEventListener('click', filterByZone);
+        document.getElementById('resetBtn').addEventListener('click', resetMap);
+        
+        // List view button (just shows the list in this case)
+        document.getElementById('listViewBtn').addEventListener('click', function() {
+            document.querySelector('.sidebar').scrollIntoView({ behavior: 'smooth' });
+        });
+        
+        // Make functions available globally for popup buttons
+        window.focusOnStation = focusOnStation;
+    </script>
+</body>
+</html>
