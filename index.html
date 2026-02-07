@@ -246,6 +246,21 @@
             letter-spacing: -1px;
         }
 
+.hero-buttons .btn,
+.hero-buttons .btn-secondary {
+    border: 2px solid #FFB703;
+    box-shadow: 0 0 12px rgba(255,183,3,0.4);
+}
+
+/* Hover highlight */
+.hero-buttons .btn:hover,
+.hero-buttons .btn-secondary:hover {
+    box-shadow: 0 0 0 3px rgba(255,183,3,0.3),
+                0 0 20px rgba(255,183,3,0.6);
+    transform: translateY(-3px) scale(1.03);
+}
+
+
         /* Make the main title larger across languages */
         .hero-text h2 .lang-content {
             display: block;
@@ -349,11 +364,18 @@
             box-shadow: 0 8px 20px rgba(0, 33, 71, 0.2);
         }
 
-        .btn-secondary {
-            background: transparent;
-            border: 2px solid #003F88;
-            color: #003F88;
-        }
+      .btn-secondary {
+    background: transparent;
+    border: 2px solid #001aff;
+    color: #81f0ff;
+}
+
+/* Hover effect */
+.btn-secondary:hover {
+    background: #003892;
+    color: #002147;
+}
+
 
         .btn-secondary::before {
             background: #003F88;
@@ -447,11 +469,12 @@
             box-shadow: 0 12px 24px rgba(0, 33, 71, 0.1);
         }
 
-        .card-icon {
-            font-size: 2.8rem;
-            margin-bottom: 20px;
-            color: #002147;
-        }
+      .card-icon{
+    font-size:40px;
+    color:#FFB703;
+    margin-bottom:15px;
+}
+
 
         .card h3 {
             font-size: 1.5rem;
@@ -1039,6 +1062,13 @@
                 <span class="lang-content lang-te">భర్తీ</span>
                 <span class="lang-content lang-hi">भर्ती</span>
             </a>
+
+ <a href="M.html">
+                <span class="lang-content lang-en">Maps</span>
+                <span class="lang-content lang-te">మ్యాప్స్</span>
+                <span class="lang-content lang-hi">एमएपीएस</span>
+            </a>
+
             <a href="#contact">
                 <span class="lang-content lang-en">Contact</span>
                 <span class="lang-content lang-te">సంప్రదించండి</span>
@@ -1144,7 +1174,7 @@
                 </div>
                 
                 <div class="card">
-                    <div class="card-icon"><i class="fas fa-balance-scale"></i></div>
+                    <div class="card-icon"><i class="fas fa-balance-scale"></i></div>                   
                     <h3 class="lang-content lang-en">Our Values</h3>
                     <h3 class="lang-content lang-te">మా విలువలు</h3>
                     <h3 class="lang-content lang-hi">हमारे मूल्य</h3>
@@ -1177,7 +1207,7 @@
                     <p class="lang-content lang-en">Register FIR and complaints online from anywhere. Track your complaint status in real-time.</p>
                     <p class="lang-content lang-te">ఎక్కడి నుండైనా ఆన్‌లైన్‌లో FIR మరియు ఫిర్యాదులను నమోదు చేయండి. మీ ఫిర్యాదు స్థితిని రియల్ టైమ్‌లో ట్రాక్ చేయండి.</p>
                     <p class="lang-content lang-hi">कहीं से भी ऑनलाइन FIR और शिकायतें दर्ज करें। अपनी शिकायत की स्थिति को रियल-टाइम में ट्रैक करें।</p>
-                    <button class="btn btn-small">
+                    <button class="btn btn-small" onclick="window.open('https://citizen.appolice.gov.in','_blank')">
                         <span class="lang-content lang-en">Register Now</span>
                         <span class="lang-content lang-te">ఇప్పుడు నమోదు చేయండి</span>
                         <span class="lang-content lang-hi">अभी पंजीकरण करें</span>
@@ -1192,7 +1222,7 @@
                     <p class="lang-content lang-en">Track police verification requests for passport applications online.</p>
                     <p class="lang-content lang-te">పాస్పోర్ట్ దరఖాస్తుల కోసం పోలీస్ ధృవీకరణ అభ్యర్థనలను ఆన్‌లైన్‌లో ట్రాక్ చేయండి.</p>
                     <p class="lang-content lang-hi">पासपोर्ट आवेदनों के लिए पुलिस सत्यापन अनुरोधों को ऑनलाइन ट्रैक करें।</p>
-                    <button class="btn btn-small">
+                    <button class="btn btn-small"onclick="window.open('https://portal2.passportindia.gov.in','_blank')">
                         <span class="lang-content lang-en">Track Status</span>
                         <span class="lang-content lang-te">స్థితిని ట్రాక్ చేయండి</span>
                         <span class="lang-content lang-hi">स्थिति ट्रैक करें</span>
@@ -1207,7 +1237,7 @@
                     <p class="lang-content lang-en">Report lost certificates, IDs, and important documents. Get reference number for recovery.</p>
                     <p class="lang-content lang-te">కోల్పోయిన సర్టిఫికేట్లు, ID లు మరియు ముఖ్యమైన డాక్యుమెంట్లను నివేదించండి. రికవరీ కోసం రిఫరెన్స్ నంబర్ పొందండి.</p>
                     <p class="lang-content lang-hi">खोए हुए प्रमाणपत्रों, आईडी और महत्वपूर्ण दस्तावेजों की रिपोर्ट करें। पुनर्प्राप्ति के लिए संदर्भ संख्या प्राप्त करें।</p>
-                    <button class="btn btn-small">
+                    <button class="btn btn-small" onclick="window.open('https://citizen.appolice.gov.in/lost-article','_blank')">
                         <span class="lang-content lang-en">Report Loss</span>
                         <span class="lang-content lang-te">నష్టాన్ని నివేదించండి</span>
                         <span class="lang-content lang-hi">नुकसान की रिपोर्ट करें</span>
@@ -1246,7 +1276,7 @@
             
             <div class="cards">
                 <div class="card news-card">
-                    <span class="news-date">మార్చి 15, 2026</span>
+                    <span class="news-date">Dec 31, 2025</span>
                     <h3>
                         <span class="lang-content lang-en">Fraud Alert: Banking Scams</span>
                         <span class="lang-content lang-te">మోసం హెచ్చరిక: బ్యాంకింగ్ స్కామ్లు</span>
@@ -1263,7 +1293,7 @@
                 </div>
                 
                 <div class="card news-card">
-                    <span class="news-date">మార్చి 10, 2026</span>
+                    <span class="news-date">Jan 10, 2026</span>
                     <h3>
                         <span class="lang-content lang-en">Traffic Advisory: Festival Season</span>
                         <span class="lang-content lang-te">ట్రాఫిక్ సలహా: పండుగ సీజన్</span>
@@ -1280,7 +1310,7 @@
                 </div>
                 
                 <div class="card news-card">
-                    <span class="news-date">మార్చి 5, 2026</span>
+                    <span class="news-date">Feb 1, 2026</span>
                     <h3>
                         <span class="lang-content lang-en">Public Safety Campaign</span>
                         <span class="lang-content lang-te">ప్రజా భద్రత ప్రచారం</span>
@@ -1601,9 +1631,9 @@
                 <span class="lang-content lang-hi">आंध्र प्रदेश पुलिस मुख्यालय, मंगलगिरि, आंध्र प्रदेश। सर्वाधिकार सुरक्षित।</span>
             </p>
             <p style="margin-top: 10px; font-size: 0.8rem;">
-                <span class="lang-content lang-en">This is an official website of Andhra Pradesh Police. Last updated: March 2026</span>
-                <span class="lang-content lang-te">ఇది ఆంధ్రప్రదేశ్ పోలీస్ యొక్క అధికారిక వెబ్‌సైట్. చివరిగా నవీకరించబడింది: మార్చి 2026</span>
-                <span class="lang-content lang-hi">यह आंध्र प्रदेश पुलिस की आधिकारिक वेबसाइट है। अंतिम अपडेट: मार्च 2026</span>
+                <span class="lang-content lang-en">This is an official website of Andhra Pradesh Police. Last updated: Jan 2026</span>
+                <span class="lang-content lang-te">ఇది ఆంధ్రప్రదేశ్ పోలీస్ యొక్క అధికారిక వెబ్‌సైట్. చివరిగా నవీకరించబడింది: జనవరి 2026</span>
+                <span class="lang-content lang-hi">यह आंध्र प्रदेश पुलिस की आधिकारिक वेबसाइट है। अंतिम अपडेट: जनवरी 2026</span>
             </p>
         </div>
     </footer>
