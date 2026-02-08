@@ -276,139 +276,7 @@
             }
         }
 
-        /* ===== MOBILE TOGGLE SWITCH (FROM mb.html) ===== */
-        .mb-toggle-wrapper {
-            display: none;
-            position: relative;
-            z-index: 1001;
-            /* Variables for the new switch */
-            --hue: 223;
-            --primary: #FFB703;
-            /* Match theme gold instead of blue */
-            --trans-dur: 0.6s;
-            --trans-timing: cubic-bezier(0.65, 0, 0.35, 1);
-            font-size: 26px;
-            /* Scale the em-based switch */
-        }
-
-        .switch,
-        .switch__input {
-            display: block;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        .switch {
-            margin: auto;
-            position: relative;
-            user-select: none;
-        }
-
-        .switch__icon {
-            color: hsla(var(--hue), 10%, 80%);
-            pointer-events: none;
-            position: absolute;
-            top: 0.375em;
-            left: 0.375em;
-            width: 0.75em;
-            height: 0.75em;
-            transition: color var(--trans-dur), transform var(--trans-dur) var(--trans-timing);
-        }
-
-        .switch__icon:nth-of-type(2) {
-            right: 0.375em;
-            left: auto;
-        }
-
-        .switch__inner,
-        .switch__inner-icons {
-            border-radius: 0.5em;
-            display: block;
-            overflow: hidden;
-            position: absolute;
-            top: 0.25em;
-            left: 0.25em;
-            width: 2.25em;
-            height: 1em;
-        }
-
-        .switch__inner:before,
-        .switch__inner-icons {
-            transition: transform var(--trans-dur) var(--trans-timing);
-            transform: translateX(-1.25em);
-        }
-
-        .switch__inner:before {
-            background-color: var(--primary);
-            border-radius: inherit;
-            content: "";
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        .switch__inner-icons {
-            pointer-events: none;
-        }
-
-        .switch__inner-icons .switch__icon {
-            color: #002147;
-            /* Contrast against gold */
-            top: 0.125em;
-            left: 0.125em;
-            transform: translateX(1.25em);
-        }
-
-        .switch__inner-icons .switch__icon:nth-child(2) {
-            right: 0.125em;
-            left: auto;
-        }
-
-        .switch__input {
-            background-color: rgba(255, 255, 255, 0.1);
-            /* Slightly translucent */
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 0.75em;
-            width: 2.75em;
-            height: 1.5em;
-            appearance: none;
-            cursor: pointer;
-            transition: background-color var(--trans-dur), box-shadow var(--trans-dur);
-        }
-
-        .switch__input:checked {
-            background-color: #000;
-        }
-
-        .switch__input:checked~.switch__icon {
-            color: hsla(var(--hue), 10%, 40%);
-        }
-
-        .switch__input:checked~.switch__inner:before,
-        .switch__input:checked~.switch__inner-icons {
-            transform: translateX(1.25em);
-        }
-
-        .switch__input:not(:checked)~.switch__icon:first-of-type,
-        .switch__input:checked~.switch__icon:nth-of-type(2) {
-            transform: rotate(360deg);
-        }
-
-        .switch__input:checked~.switch__inner-icons .switch__icon:first-of-type {
-            transform: translateX(-1.25em) rotate(-360deg);
-        }
-
-        .switch__input:checked~.switch__inner-icons .switch__icon:nth-of-type(2) {
-            transform: translateX(-1.25em) rotate(360deg);
-        }
-
-        .switch__sr {
-            overflow: hidden;
-            position: absolute;
-            width: 1px;
-            height: 1px;
-        }
-
-        /* ===== DESKTOP BUTTON ===== */
+        /* ===== BUTTON 2 ===== */
         .button {
             line-height: 1;
             text-decoration: none;
@@ -1038,22 +906,6 @@
                 flex-wrap: wrap;
                 height: auto;
                 min-height: var(--header-height);
-                transition: background-color 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-            }
-
-            body {
-                transition: background-color 0.6s cubic-bezier(0.65, 0, 0.35, 1), color 0.6s cubic-bezier(0.65, 0, 0.35, 1);
-            }
-
-            /* Noise effect for mobile dark mode */
-            body.dark-mode::before {
-                content: "";
-                position: fixed;
-                inset: 0;
-                background-image: url("data:image/svg+xml,<svg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='5' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23noiseFilter)' opacity='0.25'/></svg>");
-                opacity: 0.1;
-                pointer-events: none;
-                z-index: 9999;
             }
 
             .logo-container {
@@ -1070,13 +922,11 @@
                 /* Slightly smaller for mobile side placement */
             }
 
-            .mb-toggle-wrapper {
-                display: block;
-                margin: 0 auto;
-            }
-
             #darkModeBtn {
-                display: none !important;
+                margin: 0 auto;
+                display: flex;
+                transform: scale(0.85);
+                z-index: 1001;
             }
 
             .mobile-menu-btn {
@@ -1233,8 +1083,17 @@
                 font-size: 1.6rem;
             }
 
-            .mb-toggle-wrapper {
-                transform: scale(0.85);
+            #darkModeText {
+                display: none;
+            }
+
+            #darkModeBtn {
+                padding: 0;
+                width: 42px;
+                height: 42px;
+                justify-content: center;
+                border-radius: 50%;
+                margin: 0 auto;
             }
 
             .logo-container {
@@ -1300,14 +1159,6 @@
             background-color: var(--primary);
         }
 
-        @media (max-width: 767px) {
-            body.dark-mode {
-                --primary: #12141d;
-                /* Deep slate like mb.html */
-                --secondary: #1e212b;
-            }
-        }
-
         body.dark-mode header {
             background-color: rgba(0, 0, 0, 0.95);
             border-bottom-color: rgba(255, 255, 255, 0.1);
@@ -1362,49 +1213,6 @@
         <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
             <i class="fas fa-bars"></i>
         </button>
-
-        <!-- Mobile Dark Mode Toggle -->
-        <div class="mb-toggle-wrapper">
-            <!-- Icons -->
-            <svg display="none">
-                <symbol id="light" viewBox="0 0 24 24">
-                    <g stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                        <line x1="12" y1="17" x2="12" y2="20" transform="rotate(0,12,12)" />
-                        <line x1="12" y1="17" x2="12" y2="20" transform="rotate(45,12,12)" />
-                        <line x1="12" y1="17" x2="12" y2="20" transform="rotate(90,12,12)" />
-                        <line x1="12" y1="17" x2="12" y2="20" transform="rotate(135,12,12)" />
-                        <line x1="12" y1="17" x2="12" y2="20" transform="rotate(180,12,12)" />
-                        <line x1="12" y1="17" x2="12" y2="20" transform="rotate(225,12,12)" />
-                        <line x1="12" y1="17" x2="12" y2="20" transform="rotate(270,12,12)" />
-                        <line x1="12" y1="17" x2="12" y2="20" transform="rotate(315,12,12)" />
-                    </g>
-                    <circle fill="currentColor" cx="12" cy="12" r="5" />
-                </symbol>
-                <symbol id="dark" viewBox="0 0 24 24">
-                    <path fill="currentColor"
-                        d="M15.1,14.9c-3-0.5-5.5-3-6-6C8.8,7.1,9.1,5.4,9.9,4c0.4-0.8-0.4-1.7-1.2-1.4C4.6,4,1.8,7.9,2,12.5c0.2,5.1,4.4,9.3,9.5,9.5c4.5,0.2,8.5-2.6,9.9-6.6c0.3-0.8-0.6-1.7-1.4-1.2C18.6,14.9,16.9,15.2,15.1,14.9z" />
-                </symbol>
-            </svg>
-            <label class="switch">
-                <input class="switch__input" type="checkbox" id="mobileToggleCheckbox">
-                <svg class="switch__icon" width="24" height="24">
-                    <use href="#light" />
-                </svg>
-                <svg class="switch__icon" width="24" height="24">
-                    <use href="#dark" />
-                </svg>
-                <span class="switch__inner"></span>
-                <span class="switch__inner-icons">
-                    <svg class="switch__icon" width="24" height="24">
-                        <use href="#light" />
-                    </svg>
-                    <svg class="switch__icon" width="24" height="24">
-                        <use href="#dark" />
-                    </svg>
-                </span>
-                <span class="switch__sr">Dark Mode Switch</span>
-            </label>
-        </div>
 
         <button class="button" id="darkModeBtn" style="--clr: #7808d0">
             <span class="button__icon-wrapper">
@@ -1820,35 +1628,21 @@
         // Dark Mode Toggle
         document.addEventListener('DOMContentLoaded', function () {
             const darkModeBtn = document.getElementById('darkModeBtn');
-            const mobileToggle = document.getElementById('mobileToggleCheckbox');
             const darkModeText = document.getElementById('darkModeText');
             const heroImage = document.getElementById('heroImage');
             const body = document.body;
 
-            function updateTheme(isDark) {
-                if (isDark) {
-                    body.classList.add('dark-mode');
-                    if (darkModeText) darkModeText.textContent = "Go Light Mode";
-                    if (heroImage) heroImage.src = "ss.png";
-                    if (mobileToggle) mobileToggle.checked = true;
-                } else {
-                    body.classList.remove('dark-mode');
-                    if (darkModeText) darkModeText.textContent = "Go Dark Mode";
-                    if (heroImage) heroImage.src = "queen.png";
-                    if (mobileToggle) mobileToggle.checked = false;
-                }
-            }
-
             if (darkModeBtn) {
                 darkModeBtn.addEventListener('click', function () {
-                    const isDark = !body.classList.contains('dark-mode');
-                    updateTheme(isDark);
-                });
-            }
+                    body.classList.toggle('dark-mode');
 
-            if (mobileToggle) {
-                mobileToggle.addEventListener('change', function () {
-                    updateTheme(this.checked);
+                    if (body.classList.contains('dark-mode')) {
+                        darkModeText.textContent = "Go Light Mode";
+                        if (heroImage) heroImage.src = "ss.png";
+                    } else {
+                        darkModeText.textContent = "Go Dark Mode";
+                        if (heroImage) heroImage.src = "queen.png";
+                    }
                 });
             }
         });
