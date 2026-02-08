@@ -569,20 +569,123 @@
             text-align: center;
         }
 
-        /* ===== NEWS SECTION ===== */
-        .news-card {
-            border-left: 5px solid var(--accent);
+        /* ===== NEWS LIST (Style Replacement) ===== */
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            /* Increased gap */
+            max-width: 950px;
+            margin: 0 auto;
         }
 
-        .news-date {
-            display: inline-block;
-            background: rgba(255, 183, 3, 0.1);
-            color: #FF6B35;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
-            font-weight: 500;
+        .news-item {
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.4);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 3px solid #FFB703;
+            border-radius: 16px;
+            padding: 35px;
+            gap: 15px;
+            transition: all 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(25px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .news-item:hover {
+            transform: translateY(-7px);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+            border-color: rgba(255, 183, 3, 0.3);
+        }
+
+        .news-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 183, 3, 0.5), transparent);
+            opacity: 0.5;
+        }
+
+        .news-date-box {
+            display: none;
+            /* Removed as per request */
+        }
+
+        .news-content {
+            flex: 1;
+        }
+
+        .news-content h3 {
+            color: #FFFFFF;
+            /* Crisp white for premium feel */
+            margin-bottom: 12px;
+            font-size: 1.4rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            /* Modern editorial style */
+        }
+
+        .news-content p {
+            font-size: 1.05rem;
+            /* Larger body text */
+            color: #E2E8F0;
+            /* Brighter white-grey */
+            margin-bottom: 0;
+            line-height: 1.75;
+            /* Better readability */
+            max-width: 95%;
+            /* Use full width */
+            font-weight: 400;
+        }
+
+        .news-btn {
+            display: none;
+            /* Hide button if user wants standard text focus, or keep if needed. Assuming keep but style change */
+        }
+
+        .news-item:hover .news-btn {
+            background: #FFB703;
+            color: #002147;
+            border-color: #FFB703;
+        }
+
+        @media (max-width: 768px) {
+            .news-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .news-date-box {
+                flex-direction: row;
+                width: 100%;
+                height: auto;
+                padding: 10px;
+                justify-content: flex-start;
+                gap: 10px;
+                background: transparent;
+                border: none;
+                border-bottom: 1px solid rgba(255, 183, 3, 0.1);
+                border-radius: 0;
+            }
+
+            .news-date-box .day {
+                font-size: 1.4rem;
+            }
+
+            .news-btn {
+                width: 100%;
+                text-align: center;
+            }
         }
 
         /* ===== CONTACT SECTION ===== */
@@ -880,8 +983,8 @@
 
             .hero-visual {
                 margin-top: 40px;
-                width: 340px;
-                height: 340px;
+                width: 380px;
+                height: 380px;
             }
 
             section {
@@ -963,8 +1066,8 @@
             }
 
             .hero-visual {
-                width: 220px;
-                height: 220px;
+                width: 310px;
+                height: 310px;
             }
 
             .section-header h2 {
@@ -992,8 +1095,8 @@
             }
 
             .hero-visual {
-                width: 240px;
-                height: 240px;
+                width: 280px;
+                height: 280px;
             }
         }
 
@@ -1192,7 +1295,7 @@
                     <h3>Lost Document Report</h3>
                     <p>Report lost certificates, IDs, and important documents. Get reference number for recovery.</p>
                     <button class="btn btn-small"
-                        onclick="window.open('https://citizen.appolice.gov.in/lost-article','_blank')">
+                        onclick="window.open('https://onlineap.meeseva.gov.in/CitizenPortal/UserInterface/Citizen/Home.aspx','_blank')">
                         Report Loss
                     </button>
                 </div>
@@ -1215,33 +1318,44 @@
                 <p>Stay updated with important announcements, safety alerts, and police advisories.</p>
             </div>
 
-            <div class="cards">
-                <div class="card news-card">
-                    <span class="news-date">Dec 31, 2025</span>
-                    <h3>Fraud Alert: Banking Scams</h3>
-                    <p>Beware of fake banking calls asking for OTP and personal information. Never share sensitive
-                        details over phone.</p>
-                    <button class="btn btn-small">
-                        Read More
-                    </button>
+            <div class="news-list">
+                <!-- News Item 1 -->
+                <div class="news-item">
+                    <div class="news-content">
+                        <h3>AP Police Training Update</h3>
+                        <p>Around 6,100 new police constables in Andhra Pradesh are getting special training on drug
+                            control and cyber investigation. This training helps police fight drug crimes more
+                            effectively using modern technology and law knowledge.</p>
+                    </div>
                 </div>
 
-                <div class="card news-card">
-                    <span class="news-date">Jan 10, 2026</span>
-                    <h3>Traffic Advisory: Festival Season</h3>
-                    <p>Special traffic arrangements for upcoming festivals. Check routes before traveling.</p>
-                    <button class="btn btn-small">
-                        View Routes
-                    </button>
+                <!-- News Item 2 -->
+                <div class="news-item">
+                    <div class="news-content">
+                        <h3>AI-Powered Policing Pilot in AP</h3>
+                        <p>AP Police started a new AI-based policing project in Chittoor, Guntur, and Annamayya
+                            districts. AI tools will help police solve cases faster, handle complaints quickly, and
+                            improve public services.</p>
+                    </div>
                 </div>
 
-                <div class="card news-card">
-                    <span class="news-date">Feb 1, 2026</span>
-                    <h3>Public Safety Campaign</h3>
-                    <p>Cyber awareness programs ongoing across districts. Learn to protect yourself online.</p>
-                    <button class="btn btn-small">
-                        Join Program
-                    </button>
+                <!-- News Item 3 -->
+                <div class="news-item">
+                    <div class="news-content">
+                        <h3>Traffic Alert – Vijayawada Highway</h3>
+                        <p>Heavy traffic is reported on NH-65 highway between Hyderabad and Vijayawada due to festival
+                            travel. Vehicles are moving slowly near toll plazas and major junctions, so travelers should
+                            expect delays.</p>
+                    </div>
+                </div>
+
+                <!-- News Item 4 -->
+                <div class="news-item">
+                    <div class="news-content">
+                        <h3>Online Investment Scam Arrest</h3>
+                        <p>Police arrested two men involved in an online investment scam, cheating people of ₹13 lakh.
+                            They used fake accounts and stolen documents to collect money.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1258,7 +1372,7 @@
                     <div class="card-icon"><i class="fas fa-user-plus"></i></div>
                     <h3>Current Openings</h3>
                     <p>Check for current recruitment notifications for Constable, SI, ASI, and other positions.</p>
-                    <button class="btn btn-small">
+                    <button class="btn btn-small" onclick="window.open('https://slprb.ap.gov.in/', '_blank')">
                         View Notifications
                     </button>
                 </div>
@@ -1267,7 +1381,7 @@
                     <div class="card-icon"><i class="fas fa-file-download"></i></div>
                     <h3>Application Process</h3>
                     <p>Apply online, download hall tickets, and check results through official portal.</p>
-                    <button class="btn btn-small">
+                    <button class="btn btn-small" onclick="window.open('https://citizen.appolice.gov.in/', '_blank')">
                         Apply Online
                     </button>
                 </div>
@@ -1276,7 +1390,7 @@
                     <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
                     <h3>Eligibility Criteria</h3>
                     <p>Check educational qualifications, physical standards, and age limits for various posts.</p>
-                    <button class="btn btn-small">
+                    <button class="btn btn-small" onclick="window.open('https://www.appolice.gov.in/', '_blank')">
                         Check Eligibility
                     </button>
                 </div>
@@ -1425,19 +1539,7 @@
                 });
             });
 
-            // Service card buttons
-            document.querySelectorAll('.service-card .btn-small').forEach((btn, index) => {
-                btn.addEventListener('click', function () {
-                    const services = [
-                        "Online Complaint Registration",
-                        "Traffic Challan Check",
-                        "Lost Document Report",
-                        "Cyber Crime Reporting"
-                    ];
-                    const message = `Redirecting to ${services[index]} portal.`;
-                    alert(message);
-                });
-            });
+
 
             // Navigation active state
             const sections = document.querySelectorAll('section');
