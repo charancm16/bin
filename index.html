@@ -500,6 +500,7 @@
             background: linear-gradient(135deg, rgba(255, 183, 3, 0.5), transparent 50%);
             -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             -webkit-mask-composite: xor;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
             mask-composite: exclude;
             pointer-events: none;
             z-index: 2;
@@ -594,6 +595,9 @@
             position: relative;
             backdrop-filter: blur(25px);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            animation: fadeUp linear;
+            animation-timeline: view();
+            animation-range: entry 0% cover 40%;
         }
 
         .news-item:hover {
@@ -905,21 +909,35 @@
             }
 
             .logo-container {
-                width: 100%;
-                justify-content: center;
-                margin-bottom: 10px;
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: auto;
+                margin-bottom: 0;
             }
 
-            .logo-text h1 {
-                font-size: 1.5rem;
+            .logo-img {
+                height: 45px;
+                /* Slightly smaller for mobile side placement */
+            }
+
+            #darkModeBtn {
+                margin: 0 auto;
+                display: flex;
+                transform: scale(0.85);
+                z-index: 1001;
             }
 
             .mobile-menu-btn {
                 display: block;
                 position: absolute;
                 right: 20px;
-                top: 20px;
+                top: 50%;
+                transform: translateY(-50%);
             }
+
+
 
             nav {
                 position: fixed;
@@ -1063,6 +1081,27 @@
         @media (max-width: 480px) {
             .hero-text h2 {
                 font-size: 1.6rem;
+            }
+
+            #darkModeText {
+                display: none;
+            }
+
+            #darkModeBtn {
+                padding: 0;
+                width: 42px;
+                height: 42px;
+                justify-content: center;
+                border-radius: 50%;
+                margin: 0 auto;
+            }
+
+            .logo-container {
+                left: 10px;
+            }
+
+            .mobile-menu-btn {
+                right: 10px;
             }
 
             .hero-visual {
