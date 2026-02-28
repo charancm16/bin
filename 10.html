@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>3D Building Viewer with Textures</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #111;
+            font-family: Arial, sans-serif;
+        }
+
+        #viewer {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #hint {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 40px;
+            border-radius: 10px;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="viewer"></div>
+    <div id="hint">
+        Drag to rotate • Scroll/Pinch to zoom
+    </div>
+    <div id="loading">Loading textures...</div>
+
+    <!-- Three.js -->
+    <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
+
+    <!-- Import Maps for Three.js modules -->
+    <script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/examples/jsm/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+
+    <script type="module">
+        // Import Three.js modules properly
+        import { OrbitControls } from 'https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+
+        const container = document.getElementById("viewer");
+        const loadingElement = document.getElementById("loading");
+
+        /* Scene */
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x222222);
+
+        /* Camera */
+        const camera = new THREE.PerspectiveCamera(
+            60,
+            window.innerWidth / window.innerHeight,
+            0.1,
+            1000
+        );
+        camera.position.set(8, 5, 10);
+
+        /* Renderer */
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        /* Controls */
+        const controls = new OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.enablePan = true;
+        controls.minDistance = 5;
+        controls.maxDistance = 30;
+
+        /* Lighting */
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(10, 20, 10);
+        scene.add(directionalLight);
+
+        /* Ground */
+        const groundGeometry = new THREE.PlaneGeometry(100, 100);
+        const groundMaterial = new THREE.MeshStandardMaterial({
+            color: 0x333333,
+            side: THREE.DoubleSide
+        });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -Math.PI / 2;
+        ground.position.y = -3;
+        scene.add(ground);
+
+        /* Texture Loader */
+        const textureLoader = new THREE.TextureLoader();
+
+        // Function to load a texture with error handling
+        function loadTexture(path, onLoad, onError) {
+            textureLoader.load(
+                path,
+                onLoad,
+                undefined, // onProgress callback is optional
+                (error) => {
+                    console.error(`Failed to load texture: ${path}`, error);
+                    if (onError) onError(error);
+                }
+            );
+        }
+
+        /* Create Building with Textured Materials */
+        const buildingGeometry = new THREE.BoxGeometry(10, 6, 8);
+
+        // Create an array to hold all textures
+        const textures = [];
+        const textureFiles = [
+            'right.png',   // +X (right)
+            'left.png',    // -X (left)
+            'top.png',     // +Y (top)
+            'bottom.png',  // -Y (bottom)
+            'front.png',   // +Z (front)
+            'back.png'     // -Z (back)
+        ];
+
+        // Load all textures
+        let texturesLoaded = 0;
+        const totalTextures = textureFiles.length;
+
+        textureFiles.forEach((filename, index) => {
+            // Note: You need to adjust the path based on where your images are stored
+            // If images are in the same directory as your HTML file, just use filename
+            // If images are in a 'textures' folder, use 'textures/' + filename
+            // IMPORTANT: Place your images in the same directory as this HTML file or adjust the path accordingly
+            const texturePath = filename; // Change this to your actual path if needed
+
+            loadTexture(
+                texturePath,
+                (texture) => {
+                    textures[index] = texture;
+                    textures[index].colorSpace = THREE.SRGBColorSpace;
+                    texturesLoaded++;
+
+                    // When all textures are loaded, create the building
+                    if (texturesLoaded === totalTextures) {
+                        createTexturedBuilding();
+                        loadingElement.style.display = 'none';
+                    }
+                },
+                (error) => {
+                    // If texture fails to load, use a placeholder color
+                    console.warn(`Using fallback color for ${filename}`);
+                    textures[index] = null;
+                    texturesLoaded++;
+
+                    if (texturesLoaded === totalTextures) {
+                        createTexturedBuilding();
+                        loadingElement.style.display = 'none';
+                    }
+                }
+            );
+        });
+
+        function createTexturedBuilding() {
+            // Create materials array for each face
+            const materials = [];
+
+            // Colors to use as fallback if textures fail to load
+            const fallbackColors = [
+                0xff0000, // Right - Red
+                0x00ff00, // Left - Green
+                0x0000ff, // Top - Blue
+                0xffff00, // Bottom - Yellow
+                0xff00ff, // Front - Magenta
+                0x00ffff  // Back - Cyan
+            ];
+
+            for (let i = 0; i < 6; i++) {
+                if (textures[i]) {
+                    // Create material with texture
+                    materials.push(new THREE.MeshStandardMaterial({
+                        map: textures[i],
+                        side: THREE.FrontSide
+                    }));
+                } else {
+                    // Create material with fallback color
+                    materials.push(new THREE.MeshStandardMaterial({
+                        color: fallbackColors[i]
+                    }));
+                }
+            }
+
+            // Create the building with the materials
+            const building = new THREE.Mesh(buildingGeometry, materials);
+            scene.add(building);
+
+            // You can also create an outline/wireframe for better visibility
+            const wireframe = new THREE.LineSegments(
+                new THREE.EdgesGeometry(buildingGeometry),
+                new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 })
+            );
+            building.add(wireframe);
+        }
+
+        /* Animation Loop */
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        /* Resize Handling */
+        window.addEventListener("resize", () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        /* Add grid helper for better orientation */
+        const gridHelper = new THREE.GridHelper(50, 50, 0x444444, 0x222222);
+        gridHelper.position.y = -3;
+        scene.add(gridHelper);
+
+        /* Add axes helper for debugging */
+        const axesHelper = new THREE.AxesHelper(5);
+        scene.add(axesHelper);
+    </script>
+</body>
+
+</html>
